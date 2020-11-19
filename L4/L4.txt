@@ -1,0 +1,7 @@
+P1. Implementaţi clasa Mamifer din cadrul exemplului de mai sus astfel:
+- scrieţi codul pentru implementarea metodei: public void MarcheazaTeritoriul(), în fiecare din clasele: Om, UnMembruAlGastii, Maimuta;
+- încercaţi să apelaţi metoda: public void MarcheazaTeritoriul(), în cadrul claselor, şi din afara lor.
+Explicaţi, la fiecare caz în parte, rezultatele obţinute.
+
+P2. Integraţi clasele Televizor şi TelevizorColor într-un program Java funcţional, în care să se definească câte două instanţe pentru fiecare din clasele de mai sus şi să se folosească metodele definite pentru a afişa proprietăţile instanţelor.
+Explicaţi la fiecare caz în parte rezultatele obţinute.

@@ -1,0 +1,93 @@
+Se vor parcurge toate exemplele prezentate în platforma de laborator testându-se practic (acolo unde este cazul). 
+Să se răspundă la următoarele întrebări grilă, explicând şi alegerea rezultatului, comentand codul creat.
+Va rog sa incarcati pentru fiecare intrebare cate un fisier .java
+
+1. După executarea fragmentului de cod de mai jos, care sunt valorile variabilelor x, a şi b?
+int x, a=6,b=7;
+x=a++ + b++;
+A. x=15, a=7, b=8
+B. x=15, a=6, b=7
+C. x=13, a=7, b=8
+D. x=13, a=6, b=7
+
+2. Care din următoarele expresii sunt legale? (Alegeţi una sau mai multe.)
+A. int x=6; x=!x;
+B. int x=6; if (!(x>3)) { }
+C. int x=6; x=~x;
+
+3. Care dintre următoarele expresii rezultă într-o expresie pozitivă a lui x? (Alegeţi una.)
+A. int x=-1; x=x >>> 5;
+B. int x=-1; x=x >>> 32;
+C. byte x=-1; x=x >>> 5;
+D. int x=-1; x=x >> 5;
+
+4. Ce rezultă după rularea următorului cod?
+class Xor{
+public static void main(String args[]){
+byte b=10; // 00001010 in binar
+byte c=15; // 00001111 in binary
+b=(byte) (b ^ c);
+System.out.println(“b contine ”+b);
+}
+}
+A. Output-ul este: b contine 10
+B. Output-ul este: b contine 5
+C. Output-ul este: b contine 250
+D. Output-ul este: b contine 245
+
+5. Ce rezultă după încercarea de a compila şi rula următorul cod?
+1.class Conditional{
+2. public static void main(String args[]){
+3. int x=4;
+4. System.out.println(“valoarea este ”+((x > 4) ? 99.99:9));
+5. }
+6.}
+A. Output-ul este: valoarea este 99.99
+B. Output-ul este: valoarea este 9
+C. Output-ul este: valoarea este 9.0
+D. Se semnalează eroare de compilare la linia 4.
+
+6. Care este output-ul acestui fragment de cod?
+int x=3; int y=10;
+System.out.println(y % x);
+A. 0
+B. 1
+C. 2
+D. 3
+
+7. Ce rezultă din următorul fragment de cod?
+int x=1;
+String []names={“Fred”,”Jim”,”Sheila”};
+names[--x]+=”.”;
+for(int i=0;i<names.length;i++)
+System.out.println(names[i]);
+A. Output-ul include Fred.
+B. Output-ul include Jim.
+C. Output-ul include Sheila.
+D. Nimic din cele de mai sus.
+
+8. Care linie din următorul cod nu se va compila?
+1. byte b=5;
+2. char c=’5’;
+3. short s=55;
+4. int i=555;
+5. float f=555.5f;
+6. b=s;
+7. i=c;
+8. if(f>b)
+9. f=i;
+
+9. Se va compila următorul cod ?
+byte b=2;
+byte b1=3;
+b=b*b1;
+
+10. În codul de mai jos, care sunt posibilele tipuri pentru variabila result? (Alegeţi cel mai complet răspuns adevărat.)
+byte b=11;
+short s=13;
+result=b* ++s;
+A. byte, short, int, long, float, double
+B. boolean, byte, short, char, int, long, float, double
+C. byte, short, char, int, long, float, double
+D. byte, short, char
+E. int, long, float, double

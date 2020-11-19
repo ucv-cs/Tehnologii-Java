@@ -1,0 +1,1 @@
+Implementaţi o clasa ce descrie parţial o stivă de numere întregi cu operaţiile de adăugare a unui element, respective de scoatere a elementului din vârful stivei. Dacă presupunem că stiva poate memora maxim 100 de elemente, ambele operaţii pot provoca excepţii. Pentru a personaliza aceste excepţii se va crea o clasă specifică denumită ExceptieStiva.

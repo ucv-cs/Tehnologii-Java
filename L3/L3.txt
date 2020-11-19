@@ -1,0 +1,9 @@
+P1. Scrieţi clasa Student. Fiecare student are un nume, an, grupă, şi două note obţinute la o anumită materie - una pe semestrul 1 iar cealaltă pe semestrul 2. Clasa conţine un constructor ce iniţializează datele membru ale clasei la valorile parametrilor săi, o funcţie care calculează şi returnează media celor două note, şi o funcţie de afişare ce afişează valorile datelor membru şi valoarea mediei. Scrieţi un program complet în care să utilizaţi obiecte ale clasei Student. 
+
+P2. Modificaţi clasa Film astfel:
+-adăugaţi clasei o metodă statică care să returneze valoarea datei membru durata.
+-încercaţi să apelaţi metoda afisare( ) în cadrul metodei printCinema( ) şi invers, apelaţimetoda printCinema( ) în cadrul metodei afisare( ).
+Explicaţi la fiecare caz în parte rezultatele obţinute.
+
+P3. Creaţi următoarea ierarhie de clase: Disc(superclasa), SSD(subclasa), HDD(subclasa).
+Un disc are un nume şi o capacitate. Un SSD are în plus o stare (1 dacă este “write-protected”, 0 altfel). Un HDD are în plus un controler (de tip sir de caractere; exemplu: “IDE”, “SCSI”). Superclasa are un constructor (cu parametri) şi o funcţie de afişare (afişează valorile datelor membru). Clasa SSD are un constructor, o funcţie de afişare şi o funcţie care setează (modifică) starea SSD-ului. Clasa HDD are un constructor şi o funcţie de afişare. Scrieţi un program Java care lucrează cu obiecte de tipul celor 3 clase.
