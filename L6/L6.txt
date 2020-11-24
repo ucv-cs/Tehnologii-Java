@@ -1,0 +1,3 @@
+P1. Scrieţi un applet Java care să conţină următoarele: o zonă de editare TextArea cu 5 linii si 10 coloane, un buton cu eticheta OK şi un grup de componente CheckBox. Setaţi textul zonei de editare la un anume şir de caractere. Utilizaţi diverse culori şi font-uri.
+
+P2. Scrieţi un applet Java care să conţină un grup de 2 componente CheckBox etichetate “red” şi “blue”, şi un buton etichetat “Clear all”. Utilizatorul va bifa una din opţiunile “red” sau “blue”. La efectuarea unui click cu mouse-ul pe suprafaţa aapplet-ului se va desena un cerc colorat roşu sau albastru în funcţie de opţiunea aleasă. La apăsarea butonului “Clear all” se vor şterge toate cercurile desenate până în acel moment.
