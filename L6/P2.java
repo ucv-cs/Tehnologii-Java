@@ -1,25 +1,29 @@
 
 /**
- * P1. Scrieţi un applet Java care să conţină următoarele: o zonă de editare
- * TextArea cu 5 linii si 10 coloane, un buton cu eticheta OK şi un grup de
- * componente CheckBox. Setaţi textul zonei de editare la un anume şir de
- * caractere. Utilizaţi diverse culori şi font-uri.
+ * P2. Scrieţi un applet Java care să conţină un grup de 2 componente CheckBox
+ * etichetate “red” şi “blue”, şi un buton etichetat “Clear all”. Utilizatorul
+ * va bifa una din opţiunile “red” sau “blue”. La efectuarea unui click cu mouse-ul
+ * pe suprafaţa applet-ului se va desena un cerc colorat roşu sau albastru în funcţie
+ * de opţiunea aleasă. La apăsarea butonului “Clear all” se vor şterge toate cercurile
+ * desenate până în acel moment.
  */
 
 /**
- * Appleturile Java sunt scoase din uz începând cu JDK 9. În JDK 15.0.1 le-am înlocuit cu un GUI folosind swing.
+ * Appleturile Java sunt scoase din uz începând cu JDK 9. În JDK 15.0.1 le-am înlocuit cu un GUI folosind swing si awt.
  */
 
 import javax.swing.*;
 import java.awt.*;
 
-public class Crapplet {
+public class P2 {
 	JFrame window;
 	JTextArea textArea;
 	JButton button;
-	JCheckBox chk1, chk2, chk3;
+	CheckboxGroup cbg; // din awt; in swing nu exista
+	Checkbox chk1, chk2, chk3; // din awt; in swing exista JCheckBox, dar nu putea fi grupat folosind
+								// awt.CheckboxGroup...
 
-	Crapplet() {
+	P2() {
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 
 		window = new JFrame();
@@ -38,17 +42,19 @@ public class Crapplet {
 		button.setBounds(10, 220, 250, 30);
 		button.setFont(new Font("Consolas", Font.PLAIN, 12));
 
-		chk1 = new JCheckBox("C#", true);
+		cbg = new CheckboxGroup();
+
+		chk1 = new Checkbox("Lorem", cbg, true);
 		chk1.setBounds(10, 250, 200, 50);
 		chk1.setFont(new Font("Monospace", Font.ITALIC | Font.BOLD | Font.ROMAN_BASELINE, 12));
 		chk1.setForeground(new Color(230, 155, 60));
 
-		chk2 = new JCheckBox("is nicer than", true);
+		chk2 = new Checkbox("ipsum", cbg, false);
 		chk2.setBounds(10, 300, 200, 50);
 		chk2.setFont(new Font("Arial", Font.BOLD, 14));
 		chk2.setForeground(Color.BLUE);
 
-		chk3 = new JCheckBox("Java");
+		chk3 = new Checkbox("dolor", cbg, false);
 		chk3.setBounds(10, 350, 200, 50);
 		chk3.setFont(new Font("Times", Font.ITALIC, 16));
 		chk3.setForeground(new Color(128, 240, 100));
@@ -65,6 +71,6 @@ public class Crapplet {
 	}
 
 	public static void main(String[] args) {
-		new Crapplet();
+		new P2();
 	}
 }
