@@ -1,13 +1,12 @@
 package controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -27,16 +26,28 @@ public class LoginController {
 		stage.close();
 	}
 
+	/**
+	 * After a successful login, display the main window
+	 *
+	 * @throws Exception
+	 */
 	@FXML
-	private void ShowDashboard(/* ActionEvent event */) throws Exception {
+	private void ShowDashboard() throws Exception {
 		info.setText("information text about the login");
 
 		Parent window = FXMLLoader.load(getClass().getResource("../views/dashboard.fxml"));
 		Scene dashboard = new Scene(window);
 
-		Stage stage = new Stage();//(Stage) login.getScene().getWindow();
+		// close the login stage
+		Stage oldStage = (Stage) login.getScene().getWindow();
+		oldStage.close();
+
+		// create a new stage
+		Stage stage = new Stage();
 		stage.setScene(dashboard);
 		stage.initStyle(StageStyle.DECORATED);
+		stage.getIcons().add(new Image("resources/logo.png"));
+		stage.setTitle("jBib - Easy Library Management");
 		stage.show();
 	}
 }

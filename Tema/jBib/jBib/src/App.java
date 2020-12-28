@@ -6,10 +6,9 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import utils.DbUtil;
 
 public class App extends Application {
-	private Stage stage;
+
 	private double xOffset = 0;
 	private double yOffset = 0;
 
@@ -19,13 +18,10 @@ public class App extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		// the login window is borderless, so we need to handle manually the window
+		// the login window is borderless, so we need to manually handle the window
 		// position and the close action
 		Parent window = FXMLLoader.load(getClass().getResource("views/login.fxml"));
 
-		this.stage = stage;
-
-		//var window = ChangeScene("login");
 		stage.initStyle(StageStyle.TRANSPARENT);
 
 		// when the mouse is pressed, get its coordinates
@@ -47,11 +43,5 @@ public class App extends Application {
 		stage.setTitle("jBib");
 		stage.setScene(scene);
 		stage.show();
-	}
-
-	public Parent ChangeScene(String fxml) throws Exception {
-		Parent window = FXMLLoader.load(getClass().getResource("views/" + fxml + ".fxml"));
-		stage.getScene().setRoot(window);
-		return window;
 	}
 }

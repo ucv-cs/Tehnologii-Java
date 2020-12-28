@@ -1,31 +1,122 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DashboardController">
-   <top>
-      <MenuBar BorderPane.alignment="CENTER">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-   </top>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="600.0" style="-fx-background-color: #54C0EB;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DashboardController">
+	<top>
+		<MenuBar style="-fx-background-color: #fafafa;" BorderPane.alignment="CENTER">
+			<menus>
+				<Menu mnemonicParsing="false" text="File">
+					<items>
+						<MenuItem mnemonicParsing="false" text="Close" />
+					</items>
+				</Menu>
+				<Menu mnemonicParsing="false" text="Edit">
+					<items>
+						<MenuItem mnemonicParsing="false" text="Delete" />
+					</items>
+				</Menu>
+				<Menu mnemonicParsing="false" text="Help">
+					<items>
+						<MenuItem mnemonicParsing="false" text="About" />
+					</items>
+				</Menu>
+			</menus>
+		</MenuBar>
+	</top>
+	<center>
+		<HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+			<children>
+				<Button fx:id="library" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="dashboard_button" stylesheets="@../resources/style.css" textFill="WHITE">
+					<HBox.margin>
+						<Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+					</HBox.margin>
+					<padding>
+						<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+					</padding>
+					<graphic>
+						<Label contentDisplay="TOP" text="Library" textFill="WHITE">
+							<graphic>
+								<ImageView fitHeight="150.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+									<image>
+										<Image url="@../resources/library.png" />
+									</image>
+								</ImageView>
+							</graphic>
+						</Label>
+					</graphic>
+               <tooltip>
+                  <Tooltip text="Manage the book collection" />
+               </tooltip>
+				</Button>
+				<Button fx:id="borrowings" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="dashboard_button" stylesheets="@../resources/style.css">
+					<HBox.margin>
+						<Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+					</HBox.margin>
+					<graphic>
+						<Label contentDisplay="TOP" text="Borrowings" textFill="WHITE">
+							<graphic>
+								<ImageView fitHeight="150.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+									<image>
+										<Image url="@../resources/borrowings.png" />
+									</image>
+								</ImageView>
+							</graphic>
+						</Label>
+					</graphic>
+               <tooltip>
+                  <Tooltip text="See what books are borrowed. Fill in new borrowings" />
+               </tooltip>
+				</Button>
+				<Button fx:id="readers" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="dashboard_button" stylesheets="@../resources/style.css">
+					<HBox.margin>
+						<Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+					</HBox.margin>
+					<graphic>
+						<Label contentDisplay="TOP" text="Readers" textFill="WHITE">
+							<graphic>
+								<ImageView fitHeight="150.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+									<image>
+										<Image url="@../resources/readers.png" />
+									</image>
+								</ImageView>
+							</graphic>
+						</Label>
+					</graphic>
+               <tooltip>
+                  <Tooltip text="Manage reader data" />
+               </tooltip>
+				</Button>
+				<Button fx:id="librarians" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="dashboard_button" stylesheets="@../resources/style.css">
+					<HBox.margin>
+						<Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+					</HBox.margin>
+					<graphic>
+						<Label contentDisplay="TOP" text="Librarians" textFill="WHITE">
+							<graphic>
+								<ImageView fitHeight="150.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+									<image>
+										<Image url="@../resources/librarians.png" />
+									</image>
+								</ImageView>
+							</graphic>
+						</Label>
+					</graphic>
+               <tooltip>
+                  <Tooltip text="Manage librarian data" />
+               </tooltip>
+				</Button>
+			</children>
+		</HBox>
+	</center>
 </BorderPane>
