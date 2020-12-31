@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #54C0EB;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="primaryColor" stylesheets="@../resources/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
 	<children>
 		<AnchorPane layoutX="328.0" layoutY="13.0" prefHeight="400.0" prefWidth="300.0" style="-fx-background-color: #fafafa;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<children>
@@ -19,15 +19,15 @@
 						<Font size="25.0" />
 					</font>
 				</Label>
-				<TextField layoutX="76.0" layoutY="175.0" promptText="username" />
-				<PasswordField layoutX="76.0" layoutY="212.0" promptText="password" />
-				<Button fx:id="login" layoutX="76.0" layoutY="305.0" mnemonicParsing="false" onMouseClicked="#ShowDashboard" prefHeight="25.0" prefWidth="149.0" style="-fx-background-color: #54C0EB;" text="Log in" textFill="WHITE" />
+				<TextField fx:id="username" layoutX="76.0" layoutY="188.0" promptText="username" />
+				<PasswordField fx:id="password" layoutX="76.0" layoutY="222.0" promptText="password" />
+				<Button fx:id="login" defaultButton="true" layoutX="76.0" layoutY="305.0" mnemonicParsing="false" onMouseClicked="#ShowDashboard" prefHeight="25.0" prefWidth="149.0" style="-fx-background-color: #54C0EB;" text="Log in" textFill="WHITE" />
 				<Button fx:id="close" layoutX="262.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#CloseWindow" prefHeight="17.0" prefWidth="24.0" style="-fx-background-color: red;" text="X" textFill="WHITE">
 					<font>
 						<Font name="System Bold" size="10.0" />
 					</font>
 				</Button>
-            <Label fx:id="info" layoutX="76.0" layoutY="254.0" prefHeight="43.0" prefWidth="149.0" wrapText="true" />
+				<Label fx:id="info" layoutX="76.0" layoutY="254.0" prefHeight="43.0" prefWidth="149.0" textFill="#f2106e" wrapText="true" />
 			</children>
 		</AnchorPane>
 		<Group layoutX="53.0" layoutY="59.0">

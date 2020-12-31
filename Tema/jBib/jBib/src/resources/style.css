@@ -12,3 +12,7 @@
   -fx-background-color: #2f2b43;
   -fx-background-radius: 10;
 }
+.primaryColor {
+  -fx-background-color: #54c0eb;
+  -fx-text-fill: #fafafa;
+}

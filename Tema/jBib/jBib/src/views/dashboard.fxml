@@ -11,8 +11,9 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="600.0" style="-fx-background-color: #54C0EB;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DashboardController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" styleClass="primaryColor" stylesheets="@../resources/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DashboardController">
 	<top>
 		<MenuBar style="-fx-background-color: #fafafa;" BorderPane.alignment="CENTER">
 			<menus>
@@ -37,7 +38,7 @@
 	<center>
 		<HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
 			<children>
-				<Button fx:id="library" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="dashboard_button" stylesheets="@../resources/style.css" textFill="WHITE">
+				<Button fx:id="library" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="300.0" prefWidth="200.0" styleClass="dashboard_button" textFill="WHITE">
 					<HBox.margin>
 						<Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
 					</HBox.margin>
@@ -47,19 +48,22 @@
 					<graphic>
 						<Label contentDisplay="TOP" text="Library" textFill="WHITE">
 							<graphic>
-								<ImageView fitHeight="150.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+								<ImageView fitHeight="150.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
 									<image>
 										<Image url="@../resources/library.png" />
 									</image>
 								</ImageView>
 							</graphic>
+                     <font>
+                        <Font size="20.0" />
+                     </font>
 						</Label>
 					</graphic>
                <tooltip>
                   <Tooltip text="Manage the book collection" />
                </tooltip>
 				</Button>
-				<Button fx:id="borrowings" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="dashboard_button" stylesheets="@../resources/style.css">
+				<Button fx:id="borrowings" mnemonicParsing="false" prefHeight="300.0" prefWidth="200.0" styleClass="dashboard_button">
 					<HBox.margin>
 						<Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
 					</HBox.margin>
@@ -78,7 +82,7 @@
                   <Tooltip text="See what books are borrowed. Fill in new borrowings" />
                </tooltip>
 				</Button>
-				<Button fx:id="readers" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="dashboard_button" stylesheets="@../resources/style.css">
+				<Button fx:id="readers" mnemonicParsing="false" prefHeight="300.0" prefWidth="200.0" styleClass="dashboard_button">
 					<HBox.margin>
 						<Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
 					</HBox.margin>
@@ -97,7 +101,7 @@
                   <Tooltip text="Manage reader data" />
                </tooltip>
 				</Button>
-				<Button fx:id="librarians" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="dashboard_button" stylesheets="@../resources/style.css">
+				<Button fx:id="librarians" mnemonicParsing="false" prefHeight="300.0" prefWidth="200.0" styleClass="dashboard_button">
 					<HBox.margin>
 						<Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
 					</HBox.margin>
