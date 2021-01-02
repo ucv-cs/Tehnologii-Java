@@ -30,7 +30,7 @@ public class LoginController {
 	 * Closes the app window
 	 */
 	@FXML
-	private void CloseWindow() {
+	private void closeWindow() {
 		Platform.exit();
 	}
 
@@ -40,7 +40,7 @@ public class LoginController {
 	 * @throws Exception
 	 */
 	@FXML
-	private void ShowDashboard() throws Exception {
+	private void showDashboard() throws Exception {
 
 		if (username.getText().equals("admin") && password.getText().equals("pass")) {
 			Parent window = FXMLLoader.load(getClass().getResource("../views/dashboard.fxml"));
