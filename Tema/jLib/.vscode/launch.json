@@ -6,11 +6,35 @@
 	"configurations": [
 		{
 			"type": "java",
+			"name": "Launch FileChoose",
+			"request": "launch",
+			"vmArgs": "--module-path \"C:\\Program Files\\Java\\javafx-sdk-11.0.2\\lib\" --add-modules javafx.controls,javafx.fxml",
+			"mainClass": "FileChoose",
+			"projectName": "jLib_67d67628"
+		},
+		{
+			"type": "java",
+			"name": "Launch Demo2",
+			"request": "launch",
+			"mainClass": "Demo2",
+			"vmArgs": "--module-path \"C:\\Program Files\\Java\\javafx-sdk-11.0.2\\lib\" --add-modules javafx.controls,javafx.fxml",
+			"projectName": "jLib_67d67628"
+		},
+		{
+			"type": "java",
+			"name": "Launch Demo",
+			"request": "launch",
+			"mainClass": "Demo",
+			"vmArgs": "--module-path \"C:\\Program Files\\Java\\javafx-sdk-11.0.2\\lib\" --add-modules javafx.controls,javafx.fxml",
+			"projectName": "jLib_67d67628"
+		},
+		{
+			"type": "java",
 			"name": "Launch App",
 			"request": "launch",
 			"mainClass": "App",
 			"vmArgs": "--module-path \"C:\\Program Files\\Java\\javafx-sdk-11.0.2\\lib\" --add-modules javafx.controls,javafx.fxml",
-			"projectName": "jLib_f62c66ce"
+			"projectName": "jLib_67d67628"
 		}
 	]
 }

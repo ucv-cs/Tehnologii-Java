@@ -25,7 +25,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="600.0" prefWidth="1000.0" stylesheets="@../resources/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainController">
+<VBox prefHeight="650.0" prefWidth="1024.0" stylesheets="@../resources/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainController">
 	<children>
 		<MenuBar>
 			<menus>
@@ -113,9 +113,10 @@
 															<children>
 																<HBox spacing="10.0">
 																	<children>
-																		<Button fx:id="libraryAdd" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" text="Add" />
-																		<Button fx:id="libraryUpdate" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" text="Update" />
-																		<Button fx:id="libraryDelete" layoutX="95.0" layoutY="20.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" text="Delete" />
+																		<Button fx:id="libraryAdd" mnemonicParsing="false" onMouseClicked="#addBook" prefHeight="25.0" prefWidth="55.0" text="Add" />
+                                                      <Button fx:id="libraryClear" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#clearBook" prefHeight="25.0" prefWidth="55.0" text="Clear" />
+																		<Button fx:id="libraryUpdate" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#updateBook" prefHeight="25.0" prefWidth="55.0" text="Update" />
+																		<Button fx:id="libraryDelete" layoutX="95.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#deleteBook" prefHeight="25.0" prefWidth="55.0" text="Delete" />
 																	</children>
 																	<padding>
 																		<Insets bottom="10.0" />
@@ -127,11 +128,15 @@
 																			<children>
 																				<HBox alignment="CENTER">
 																					<children>
-																						<ImageView fx:id="libraryCover" fitHeight="120.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-																							<image>
-																								<Image url="@../resources/librarians.png" />
-																							</image>
-																						</ImageView>
+                                                                  <Button fx:id="btnLibraryCover" mnemonicParsing="false" onMouseClicked="#chooseImage">
+                                                                     <graphic>
+      																						<ImageView fx:id="libraryCover" fitHeight="120.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+      																							<image>
+      																								<Image url="@../resources/librarians.png" />
+      																							</image>
+      																						</ImageView>
+                                                                     </graphic>
+                                                                  </Button>
 																					</children>
 																				</HBox>
 																				<TextField fx:id="libraryTitle" promptText="Title" />

@@ -12,7 +12,7 @@ public class Database {
 	public static Connection connect() {
 		try {
 			connection = DriverManager.getConnection(database);
-			System.err.println("Database connected.");
+			// System.err.println("Database connected.");
 		} catch (SQLException exception) {
 			System.err.println(exception.getMessage());
 		}
@@ -26,7 +26,7 @@ public class Database {
 		try {
 			if (connection != null) {
 				connection.close();
-				System.err.println("Database disconnected.");
+				// System.err.println("Database disconnected.");
 			}
 		} catch (SQLException exception) {
 			System.err.println(exception.getMessage());
@@ -42,7 +42,9 @@ public class Database {
 		Statement statement;
 		try {
 			statement = connection.createStatement();
-			statement.executeQuery(sql);
+			// For INSERT, UPDATE or DELETE use the executeUpdate() method and for SELECT
+			// use the executeQuery() method which returns the ResultSet.
+			statement.executeUpdate(sql);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
