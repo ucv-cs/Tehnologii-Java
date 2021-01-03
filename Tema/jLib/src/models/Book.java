@@ -3,6 +3,10 @@ package models;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
+/**
+ * Defines a book object with all its properties matching the database
+ * attributes.
+ */
 public class Book {
 	private final SimpleIntegerProperty id;
 	private final SimpleStringProperty title;
