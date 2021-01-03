@@ -40,7 +40,7 @@ public class App extends Application {
 		Scene scene = new Scene(window);
 		scene.setFill(Color.TRANSPARENT);
 		stage.getIcons().add(new Image("resources/logo.png"));
-		stage.setTitle("jBib");
+		stage.setTitle("jLib");
 		stage.setScene(scene);
 		stage.show();
 	}

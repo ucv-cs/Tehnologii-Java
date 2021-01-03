@@ -3,7 +3,9 @@ package controllers;
 import java.io.File;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 
@@ -18,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableSelectionModel;
@@ -28,6 +31,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -114,6 +120,18 @@ public class MainController implements Initializable {
 	private TableSelectionModel<Librarian> librarianSelectionModel;
 	private ObservableList<Librarian> selectedLibrarian;
 
+	@FXML
+	private Button logout;
+
+	@FXML
+	public Label lblLoggedLibrarian, currentLibrarianId;
+
+	@FXML
+	public Circle loggedLibrarian;
+
+	private double xOffset = 0;
+	private double yOffset = 0;
+
 	/**
 	 * Runs after FXML injection, so it can initialize the UI.
 	 *
@@ -141,37 +159,20 @@ public class MainController implements Initializable {
 		// get the id of the pressed button
 		String buttonId = event.getPickResult().getIntersectedNode().getId();
 		ImageView imageView;
-		String table;
-		String field;
-		int id;
 
 		// detect which button was pressed and set the image view accordingly
 		switch (buttonId) {
 			case "btnLibraryCover":
 				imageView = libraryCover;
-				table = "books";
-				field = "cover";
-				id = !selectedBook.isEmpty() ? selectedBook.get(0).getId() : -1;
 				break;
 			case "btnReadersPhoto":
 				imageView = readersPhoto;
-				table = "readers";
-				field = "photo";
-				id = !selectedReader.isEmpty() ? selectedReader.get(0).getId() : -1;
 				break;
 			case "btnLibrariansPhoto":
 				imageView = librariansPhoto;
-				table = "librarians";
-				field = "photo";
-				id = !selectedLibrarian.isEmpty() ? selectedLibrarian.get(0).getId() : -1;
 				break;
 			default:
 				return; // exit if no id matches
-		}
-
-		// test if there's a selected item, exit if there is none
-		if (id == -1) {
-			return;
 		}
 
 		FileChooser fileChooser = new FileChooser();
@@ -185,31 +186,9 @@ public class MainController implements Initializable {
 
 		try {
 			if (file != null) {
-				// BufferedImage bufferedImage = ImageIO.read(file);
-				// Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-
 				String imagePath = file.getAbsolutePath();
 				Image image = new Image("file:" + imagePath);
 				imageView.setImage(image);
-
-				String query = String.format("UPDATE %s SET %s='%s' WHERE id='%s';", table, field, imagePath, id);
-				// updating the observable lists...
-				// FIXME: an abstract Model class would be very useful here...
-				switch (buttonId) {
-					case "btnLibraryCover":
-						selectedBook.get(0).setCover(imagePath);
-						break;
-					case "btnReadersPhoto":
-						selectedReader.get(0).setPhoto(imagePath);
-						break;
-					case "btnLibrariansPhoto":
-						selectedLibrarian.get(0).setPhoto(imagePath);
-						break;
-					default:
-						return; // exit if no id matches
-				}
-
-				Database.query(query);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -328,13 +307,25 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	private void addBook() {
-		// TODO: add cover
-		String query = "INSERT INTO books('title','author','edition','year','publisher','summary','price','status') VALUES"
-				+ String.format(" ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');", libraryTitle.getText(),
-						libraryAuthors.getText(), libraryEdition.getText(), libraryYear.getText(),
-						libraryPublisher.getText(), librarySummary.getText(), libraryPrice.getText(),
-						libraryStatus.getText());
-		Database.query(query);
+		String imagePath = libraryCover.getImage() != null ? libraryCover.getImage().getUrl().replace("file:", "") : "";
+		try {
+			PreparedStatement statement = connection.prepareStatement(
+					"INSERT INTO books (title, author, edition, year, publisher, summary, price, cover, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			statement.setString(1, libraryTitle.getText());
+			statement.setString(2, libraryAuthors.getText());
+			statement.setString(3, libraryEdition.getText());
+			statement.setString(4, libraryYear.getText());
+			statement.setString(5, libraryPublisher.getText());
+			statement.setString(6, librarySummary.getText());
+			statement.setString(7, libraryPrice.getText());
+			statement.setString(8, imagePath);
+			statement.setString(9, libraryStatus.getText());
+			statement.executeUpdate();
+			statement.close();
+		} catch (SQLException e) {
+			System.out.println(e.toString());
+		}
+
 		displayBooks();
 		clearBook();
 	}
@@ -364,12 +355,26 @@ public class MainController implements Initializable {
 	private void updateBook() {
 		if (!selectedBook.isEmpty()) {
 			int id = selectedBook.get(0).getId();
-			String query = String.format(
-					"UPDATE books SET title='%s', author='%s', edition='%s', year='%s', publisher='%s', summary='%s', price='%s', status='%s' WHERE id='%s';",
-					libraryTitle.getText(), libraryAuthors.getText(), libraryEdition.getText(), libraryYear.getText(),
-					libraryPublisher.getText(), librarySummary.getText(), libraryPrice.getText(),
-					libraryStatus.getText(), id);
-			Database.query(query);
+			String imagePath = libraryCover.getImage() != null ? libraryCover.getImage().getUrl().replace("file:", "")
+					: "";
+			try {
+				PreparedStatement statement = connection.prepareStatement(
+						"UPDATE books SET title=?, author=?, edition=?, year=?, publisher=?, summary=?, price=?, cover=?, status=? WHERE id=?;");
+				statement.setString(1, libraryTitle.getText());
+				statement.setString(2, libraryAuthors.getText());
+				statement.setString(3, libraryEdition.getText());
+				statement.setString(4, libraryYear.getText());
+				statement.setString(5, libraryPublisher.getText());
+				statement.setString(6, librarySummary.getText());
+				statement.setString(7, libraryPrice.getText());
+				statement.setString(8, imagePath);
+				statement.setString(9, libraryStatus.getText());
+				statement.setInt(10, id);
+				statement.executeUpdate();
+				statement.close();
+			} catch (SQLException e) {
+				System.out.println(e.toString());
+			}
 			displayBooks();
 			clearBook();
 		}
@@ -507,10 +512,19 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	private void addReader() {
-		// TODO: add photo
-		String query = "INSERT INTO readers ('name','address','status') VALUES" + String.format(" ('%s', '%s', '%s');",
-				readersName.getText(), readersAddress.getText(), readersStatus.getText());
-		Database.query(query);
+		String imagePath = readersPhoto.getImage() != null ? readersPhoto.getImage().getUrl().replace("file:", "") : "";
+		try {
+			PreparedStatement statement = connection
+					.prepareStatement("INSERT INTO readers (name, address, photo, status) VALUES (?, ?, ?, ?)");
+			statement.setString(1, readersName.getText());
+			statement.setString(2, readersAddress.getText());
+			statement.setString(3, imagePath);
+			statement.setString(4, readersStatus.getText());
+			statement.executeUpdate();
+			statement.close();
+		} catch (SQLException e) {
+			System.out.println(e.toString());
+		}
 		displayReaders();
 		clearReader();
 	}
@@ -535,9 +549,21 @@ public class MainController implements Initializable {
 	private void updateReader() {
 		if (!selectedReader.isEmpty()) {
 			int id = selectedReader.get(0).getId();
-			String query = String.format("UPDATE readers SET name='%s', address='%s', status='%s' WHERE id='%s';",
-					readersName.getText(), readersAddress.getText(), readersStatus.getText(), id);
-			Database.query(query);
+			String imagePath = readersPhoto.getImage() != null ? readersPhoto.getImage().getUrl().replace("file:", "")
+					: "";
+			try {
+				PreparedStatement statement = connection
+						.prepareStatement("UPDATE readers SET name=?, address=?, photo=?, status=? WHERE id=?;");
+				statement.setString(1, readersName.getText());
+				statement.setString(2, readersAddress.getText());
+				statement.setString(3, imagePath);
+				statement.setString(4, readersStatus.getText());
+				statement.setInt(5, id);
+				statement.executeUpdate();
+				statement.close();
+			} catch (SQLException e) {
+				System.out.println(e.toString());
+			}
 			displayReaders();
 			clearReader();
 		}
@@ -659,11 +685,22 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	private void addLibrarian() {
-		// TODO: add photo
-		String query = "INSERT INTO librarians ('username', 'password', 'name','address','status') VALUES" + String
-				.format(" ('%s', '%s','%s', '%s', '%s');", librariansUsername.getText(), librariansPassword.getText(),
-						librariansName.getText(), librariansAddress.getText(), librariansStatus.getText());
-		Database.query(query);
+		String imagePath = librariansPhoto.getImage() != null ? librariansPhoto.getImage().getUrl().replace("file:", "")
+				: "";
+		try {
+			PreparedStatement statement = connection.prepareStatement(
+					"INSERT INTO librarians (username, password, name, address, photo, status) VALUES (?, ?, ?, ?, ?, ?)");
+			statement.setString(1, librariansUsername.getText());
+			statement.setString(2, librariansPassword.getText());
+			statement.setString(3, librariansName.getText());
+			statement.setString(4, librariansAddress.getText());
+			statement.setString(5, imagePath);
+			statement.setString(6, librariansStatus.getText());
+			statement.executeUpdate();
+			statement.close();
+		} catch (SQLException e) {
+			System.out.println(e.toString());
+		}
 		displayLibrarians();
 		clearLibrarian();
 	}
@@ -690,11 +727,29 @@ public class MainController implements Initializable {
 	private void updateLibrarian() {
 		if (!selectedLibrarian.isEmpty()) {
 			int id = selectedLibrarian.get(0).getId();
-			String query = String.format(
-					"UPDATE librarians SET username='%s', password='%s', name='%s', address='%s', status='%s' WHERE id='%s';",
-					librariansUsername.getText(), librariansPassword.getText(), librariansName.getText(),
-					librariansAddress.getText(), librariansStatus.getText(), id);
-			Database.query(query);
+			String imagePath = librariansPhoto.getImage() != null
+					? librariansPhoto.getImage().getUrl().replace("file:", "")
+					: "";
+			try {
+				PreparedStatement statement = connection.prepareStatement(
+						"UPDATE librarians SET username=?, password=?, name=?, address=?, photo=?, status=? WHERE id=?;");
+				statement.setString(1, librariansUsername.getText());
+				statement.setString(2, librariansPassword.getText());
+				statement.setString(3, librariansName.getText());
+				statement.setString(4, librariansAddress.getText());
+				statement.setString(5, imagePath);
+				statement.setString(6, librariansStatus.getText());
+				statement.setInt(7, id);
+				statement.executeUpdate();
+				statement.close();
+			} catch (SQLException e) {
+				System.out.println(e.toString());
+			}
+			// update the user/logout info
+			if (id == Integer.parseInt(currentLibrarianId.getText())) {
+				lblLoggedLibrarian.setText(librariansName.getText());
+				loggedLibrarian.setFill(new ImagePattern(new Image("file:" + imagePath)));
+			}
 			displayLibrarians();
 			clearLibrarian();
 		}
@@ -712,5 +767,45 @@ public class MainController implements Initializable {
 			displayLibrarians();
 			clearLibrarian();
 		}
+	}
+
+	/**
+	 * Logs out the current librarian, hides the main window and displays the login
+	 * window.
+	 *
+	 * @throws Exception
+	 */
+	@FXML
+	private void logout() throws Exception {
+		// hide the main window
+		logout.getScene().getWindow().hide();
+
+		// FIXME: don't duplicate code...
+		// the login window is borderless, so we need to manually handle the window
+		// position and the close action
+		Parent window = FXMLLoader.load(getClass().getResource("../views/login.fxml"));
+
+		Stage stage = new Stage();
+		stage.initStyle(StageStyle.TRANSPARENT);
+
+		// when the mouse is pressed, get its coordinates
+		window.setOnMousePressed(event -> {
+			xOffset = event.getSceneX();
+			yOffset = event.getSceneY();
+		});
+
+		// when the mouse is dragged, set the window's coordinates to the new position
+		window.setOnMouseDragged(event -> {
+			stage.setX(event.getScreenX() - xOffset);
+			stage.setY(event.getScreenY() - yOffset);
+		});
+
+		// window setup
+		Scene scene = new Scene(window);
+		scene.setFill(Color.TRANSPARENT);
+		stage.getIcons().add(new Image("resources/logo.png"));
+		stage.setTitle("jLib");
+		stage.setScene(scene);
+		stage.show();
 	}
 }
