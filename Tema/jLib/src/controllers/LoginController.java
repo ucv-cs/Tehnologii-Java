@@ -33,7 +33,7 @@ public class LoginController {
 	private Label info;
 
 	/**
-	 * Closes the app window
+	 * Closes the app window.
 	 */
 	@FXML
 	private void closeWindow() {
@@ -41,7 +41,7 @@ public class LoginController {
 	}
 
 	/**
-	 * After a successful login, display the main window
+	 * After a successful login, display the main window.
 	 *
 	 * @throws Exception
 	 */
@@ -84,6 +84,5 @@ public class LoginController {
 			info.setText("Wrong login information. Try again!");
 		}
 		statement.close();
-		// Database.disconnect();
 	}
 }

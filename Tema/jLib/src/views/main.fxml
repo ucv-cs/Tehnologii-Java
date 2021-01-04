@@ -32,12 +32,12 @@
 			<menus>
 				<Menu mnemonicParsing="false" text="File">
 					<items>
-						<MenuItem mnemonicParsing="false" text="Close" />
+						<MenuItem mnemonicParsing="false" onAction="#closeWindow" text="Close" />
 					</items>
 				</Menu>
 				<Menu mnemonicParsing="false" text="Help">
 					<items>
-						<MenuItem mnemonicParsing="false" text="About" />
+						<MenuItem mnemonicParsing="false" onAction="#showAbout" text="About" />
 					</items>
 				</Menu>
 			</menus>

@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -19,6 +20,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
@@ -27,6 +29,7 @@ import javafx.scene.control.TableSelectionModel;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -807,5 +810,27 @@ public class MainController implements Initializable {
 		stage.setTitle("jLib");
 		stage.setScene(scene);
 		stage.show();
+	}
+
+	/**
+	 * Closes the app window.
+	 */
+	@FXML
+	private void closeWindow() {
+		Platform.exit();
+	}
+
+	/**
+	 * Shows the about dialog.
+	 */
+	@FXML
+	private void showAbout(){
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("jLib");
+		alert.setHeaderText("jLib 1.0\nEasy Library Management");
+		alert.setContentText("Manage the library from your desktop\nCopyright (C) 2021 Alin Clincea");
+		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+		stage.getIcons().add(new Image("resources/logo.png"));
+		alert.showAndWait();
 	}
 }
