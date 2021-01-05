@@ -6,25 +6,20 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.cell.ChoiceBoxListCell;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.StringConverter;
 import models.Reader;
+import utils.AutoComplete;
 import utils.Database;
 
 public class BorrowController implements Initializable {
 	public int selectedBookId;
+	private int selectedReaderId;
 
 	@FXML
 	private Button borrow, cancel;
@@ -71,51 +66,29 @@ public class BorrowController implements Initializable {
 	}
 
 	/**
-	 * Displays into the tableview the retrieved list of readers.
+	 * Displays into the combobox the retrieved list of readers.
 	 */
 	public void displayReaders() {
 		ObservableList<Reader> readersList = getReadersList();
 
-		FilteredList<Reader> filteredData = new FilteredList<>(readersList, flag -> true);
+		borrowReaderSearch.setItems(readersList);
+		borrowReaderSearch.setMaxHeight(50);
 
-		borrowReaderSearch.getEditor().textProperty().addListener(new ChangeListener<Reader>() {
+		AutoComplete.autoCompleteComboBoxPlus(borrowReaderSearch,
+				(typedText, itemToCompare) -> itemToCompare.getName().toLowerCase().contains(typedText.toLowerCase()));
+
+		borrowReaderSearch.setConverter(new StringConverter<>() {
+			@Override
+			public String toString(Reader object) {
+				return object != null ? object.getName() : "";
+			}
 
 			@Override
-			public void changed(ObservableValue<? extends Reader> observable, Reader oldReader, Reader newReader) {
-				// TODO Auto-generated method stub
-
+			public Reader fromString(String string) {
+				return borrowReaderSearch.getItems().stream().filter(object -> object.getName().equals(string))
+						.findFirst().orElse(null);
 			}
 		});
-
-		// borrowReaderSearch.getEditor().textProperty().addListener((observable,
-		// oldValue, newValue) -> {
-		// filteredData.setPredicate(reader -> {
-		// if (reader == null || newValue == null || newValue.isEmpty()) {
-		// return true;
-		// }
-		// borrowReaderSearch.show();
-		// String lowerCaseFilter = newValue.toLowerCase();
-		// if (reader.getName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-		// return true;
-		// } else {
-		// return false;
-		// }
-		// });
-		// });
-
-		// borrowReaderSearch.setConverter(new StringConverter<Reader>() {
-		// @Override
-		// public String toString(Reader reader) {
-		// return reader.getName();
-		// }
-
-		// @Override
-		// public Reader fromString(String reader) {
-		// return null; // FIXME
-		// }
-		// });
-
-		borrowReaderSearch.setItems(filteredData);
 	}
 
 	/**
