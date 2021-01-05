@@ -38,6 +38,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import models.Book;
@@ -127,13 +128,15 @@ public class MainController implements Initializable {
 	private Button logout;
 
 	@FXML
-	public Label lblLoggedLibrarian, currentLibrarianId;
+	public Label lblLoggedLibrarian;
 
 	@FXML
 	public Circle loggedLibrarian;
 
 	private double xOffset = 0;
 	private double yOffset = 0;
+
+	public int currentLibrarianId;
 
 	/**
 	 * Runs after FXML injection, so it can initialize the UI.
@@ -404,11 +407,29 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	public void showBorrowDialog() throws Exception {
+		if (selectedBook.isEmpty()) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("jLib");
+			alert.setHeaderText("jLib 1.0\nEasy Library Management");
+			alert.setContentText("First you have to select a book, then click Borrow.");
+			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+			stage.getIcons().add(new Image("resources/logo.png"));
+			alert.showAndWait();
+			return;
+		}
+
+		int id = selectedBook.get(0).getId();
+
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/borrow_dialog.fxml"));
 			Parent window = (Parent) fxmlLoader.load();
+
+			BorrowController borrowController = fxmlLoader.getController();
+			borrowController.selectedBookId = id;
+
 			Stage stage = new Stage();
 			stage.initStyle(StageStyle.UTILITY);
+			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.setResizable(false);
 			stage.setScene(new Scene(window));
 			stage.show();
@@ -749,7 +770,7 @@ public class MainController implements Initializable {
 				System.out.println(e.toString());
 			}
 			// update the user/logout info
-			if (id == Integer.parseInt(currentLibrarianId.getText())) {
+			if (id == currentLibrarianId) {
 				lblLoggedLibrarian.setText(librariansName.getText());
 				loggedLibrarian.setFill(new ImagePattern(new Image("file:" + imagePath)));
 			}
@@ -824,7 +845,7 @@ public class MainController implements Initializable {
 	 * Shows the about dialog.
 	 */
 	@FXML
-	private void showAbout(){
+	private void showAbout() {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("jLib");
 		alert.setHeaderText("jLib 1.0\nEasy Library Management");

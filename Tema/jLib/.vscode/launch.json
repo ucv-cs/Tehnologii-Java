@@ -6,34 +6,10 @@
 	"configurations": [
 		{
 			"type": "java",
-			"name": "Launch MCVE",
+			"name": "Launch SearchFormJavaFX",
 			"request": "launch",
 			"vmArgs": "--module-path \"C:\\Program Files\\Java\\javafx-sdk-11.0.2\\lib\" --add-modules javafx.controls,javafx.fxml",
-			"mainClass": "MCVE",
-			"projectName": "jLib_67d67628"
-		},
-		{
-			"type": "java",
-			"name": "Launch FileChoose",
-			"request": "launch",
-			"vmArgs": "--module-path \"C:\\Program Files\\Java\\javafx-sdk-11.0.2\\lib\" --add-modules javafx.controls,javafx.fxml",
-			"mainClass": "FileChoose",
-			"projectName": "jLib_67d67628"
-		},
-		{
-			"type": "java",
-			"name": "Launch Demo2",
-			"request": "launch",
-			"mainClass": "Demo2",
-			"vmArgs": "--module-path \"C:\\Program Files\\Java\\javafx-sdk-11.0.2\\lib\" --add-modules javafx.controls,javafx.fxml",
-			"projectName": "jLib_67d67628"
-		},
-		{
-			"type": "java",
-			"name": "Launch Demo",
-			"request": "launch",
-			"mainClass": "Demo",
-			"vmArgs": "--module-path \"C:\\Program Files\\Java\\javafx-sdk-11.0.2\\lib\" --add-modules javafx.controls,javafx.fxml",
+			"mainClass": "SearchFormJavaFX",
 			"projectName": "jLib_67d67628"
 		},
 		{

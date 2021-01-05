@@ -65,7 +65,6 @@
                   <Circle fx:id="loggedLibrarian" fill="#1f93ff" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
                </graphic>
             </Label>
-            <Label fx:id="currentLibrarianId" layoutX="960.0" layoutY="38.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" />
 			</children>
 		</AnchorPane>
 		<AnchorPane VBox.vgrow="ALWAYS">

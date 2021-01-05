@@ -2,8 +2,8 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -32,11 +32,11 @@
 		<VBox prefHeight="180.0" prefWidth="400.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 			<children>
 				<Label prefHeight="53.0" prefWidth="370.0" text="Select an existing reader. If the reader does not exist, you have to create it before borrowing any books." textAlignment="JUSTIFY" wrapText="true" />
-				<TextField prefHeight="25.0" prefWidth="290.0" promptText="Lookup the reader's name" />
+            <ComboBox fx:id="borrowReaderSearch" editable="true" maxHeight="25.0" prefWidth="372.0" promptText="Lookup the reader's name" />
 				<HBox alignment="BOTTOM_RIGHT" prefHeight="52.0" prefWidth="400.0" spacing="10.0">
 					<children>
-						<Button mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Borrow" />
-						<Button mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Cancel" />
+						<Button fx:id="borrow" defaultButton="true" mnemonicParsing="false" onAction="#borrow" prefHeight="25.0" prefWidth="72.0" text="Borrow" />
+						<Button fx:id="cancel" cancelButton="true" mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="72.0" text="Cancel" />
 					</children>
 				</HBox>
 			</children>

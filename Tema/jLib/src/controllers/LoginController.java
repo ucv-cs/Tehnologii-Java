@@ -60,7 +60,7 @@ public class LoginController {
 			Parent window = loader.load();
 
 			MainController mainController = loader.getController();
-			mainController.currentLibrarianId.setText(result.getString(1));
+			mainController.currentLibrarianId = Integer.parseInt(result.getString(1));
 			mainController.lblLoggedLibrarian.setText(result.getString(4));
 			if (result.getString(6) != null) {
 				mainController.loggedLibrarian.setFill(new ImagePattern(new Image("file:" + result.getString(6))));

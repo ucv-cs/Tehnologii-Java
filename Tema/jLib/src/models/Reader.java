@@ -22,6 +22,14 @@ public class Reader {
 		this.status = new SimpleStringProperty(status);
 	}
 
+	public Reader(int id, String name) {
+		this.id = new SimpleIntegerProperty(id);
+		this.name = new SimpleStringProperty(name);
+		this.address = null;
+		this.photo = null;
+		this.status = null;
+	}
+
 	public int getId() {
 		return id.get();
 	}
