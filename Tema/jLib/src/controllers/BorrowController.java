@@ -78,14 +78,14 @@ public class BorrowController implements Initializable {
 
 		FilteredList<Reader> filteredData = new FilteredList<>(readersList, flag -> true);
 
-		borrowReaderSearch.getEditor().textProperty().addListener(new ChangeListener<Reader>() {
+		// borrowReaderSearch.getEditor().textProperty().addListener(new ChangeListener<Reader>() {
 
-			@Override
-			public void changed(ObservableValue<? extends Reader> observable, Reader oldReader, Reader newReader) {
-				// TODO Auto-generated method stub
+		// 	@Override
+		// 	public void changed(ObservableValue<? extends Reader> observable, Reader oldReader, Reader newReader) {
+		// 		// TODO Auto-generated method stub
 
-			}
-		});
+		// 	}
+		// });
 
 		// borrowReaderSearch.getEditor().textProperty().addListener((observable,
 		// oldValue, newValue) -> {
@@ -115,7 +115,7 @@ public class BorrowController implements Initializable {
 		// }
 		// });
 
-		borrowReaderSearch.setItems(filteredData);
+		//borrowReaderSearch.setItems(filteredData);
 	}
 
 	/**
