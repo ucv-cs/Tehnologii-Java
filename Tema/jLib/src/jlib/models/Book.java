@@ -1,4 +1,4 @@
-package models;
+package jlib.models;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -22,7 +22,6 @@ public class Book {
 	public Book(int id, String title, String author, String edition, String year, String publisher, String summary,
 			String cover, String price, String status) {
 		this.id = new SimpleIntegerProperty(id);
-		;
 		this.title = new SimpleStringProperty(title);
 		this.author = new SimpleStringProperty(author);
 		this.edition = new SimpleStringProperty(edition);

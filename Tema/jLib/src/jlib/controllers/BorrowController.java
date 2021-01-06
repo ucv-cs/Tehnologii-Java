@@ -1,4 +1,4 @@
-package controllers;
+package jlib.controllers;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -15,16 +16,19 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.util.StringConverter;
-import models.Reader;
-import utils.AutoComplete;
-import utils.Database;
+import jlib.models.Reader;
+import jlib.utils.AutoComplete;
+import jlib.utils.Database;
 
+/**
+ * Controller for the borrow dialog.
+ */
 public class BorrowController implements Initializable {
-	public int currentLibrarianId;
-	public int selectedBookId;
-	private int selectedReaderId;
-	private Connection connection = Database.connection;
-	public MainController mainController;
+	protected int currentLibrarianId;
+	protected int selectedBookId;
+
+	private final Connection connection = Database.connection;
+	protected MainController mainController;
 
 	@FXML
 	private Button borrow, cancel;
@@ -35,24 +39,26 @@ public class BorrowController implements Initializable {
 	/**
 	 * Runs after FXML injection.
 	 *
-	 * @param location
-	 * @param resource
+	 * @param location  the location used to resolve relative paths for the root
+	 *                  object, or null if the location is not known
+	 * @param resources the resources used to localize the root object, or null if
+	 *                  the root object was not localized
 	 */
 	@Override
-	public void initialize(URL location, ResourceBundle resource) {
+	public void initialize(URL location, ResourceBundle resources) {
 		displayReaders();
 	}
 
 	/**
 	 * Queries the database and retrieves a list of readers.
 	 *
-	 * @return
+	 * @return ObservableList<Reader> list of readers
 	 */
 	public ObservableList<Reader> getReadersList() {
 		ObservableList<Reader> readersList = FXCollections.observableArrayList();
 		String query = "SELECT * FROM readers;";
-		Statement statement = null;
-		ResultSet resultSet = null;
+		Statement statement;
+		ResultSet resultSet;
 
 		try {
 			statement = connection.createStatement();
@@ -100,7 +106,7 @@ public class BorrowController implements Initializable {
 	 */
 	@FXML
 	private void borrow() {
-		selectedReaderId = AutoComplete.getComboBoxValue(borrowReaderSearch).getId();
+		int selectedReaderId = Objects.requireNonNull(AutoComplete.getComboBoxValue(borrowReaderSearch)).getId();
 
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		LocalDateTime dateBorrowed = LocalDateTime.now();

@@ -1,4 +1,4 @@
-package utils;
+package jlib.utils;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,7 +9,10 @@ import javafx.scene.input.KeyEvent;
 
 /**
  * Utility class for creating autocomplete comboboxes in JavaFX.
- * https://stackoverflow.com/a/27384068
+ *
+ * @author Mateus Viccari
+ * @see <a href=https://stackoverflow.com/a/27384068>AutoComplete ComboBox in
+ *      JavaFX</a>
  */
 public class AutoComplete {
 
@@ -17,6 +20,13 @@ public class AutoComplete {
 		boolean matches(String typedText, T objectToCompare);
 	}
 
+	/**
+	 * Attaches the autocomplete functionality to the given combobox.
+	 *
+	 * @param <T>              supplied model type
+	 * @param comboBox         control to be attached to
+	 * @param comparatorMethod method used to compare text changes
+	 */
 	public static <T> void autoCompleteComboBoxPlus(ComboBox<T> comboBox, AutoCompleteComparator<T> comparatorMethod) {
 		ObservableList<T> data = comboBox.getItems();
 
@@ -27,7 +37,7 @@ public class AutoComplete {
 			}
 		});
 		comboBox.addEventHandler(KeyEvent.KEY_PRESSED, t -> comboBox.hide());
-		comboBox.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
+		comboBox.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<>() {
 
 			private boolean moveCaretToPos = false;
 			private int caretPos;
@@ -109,6 +119,13 @@ public class AutoComplete {
 		});
 	}
 
+	/**
+	 * Retrieves the selected object in the combobox.
+	 *
+	 * @param <T>      supplied model type
+	 * @param comboBox control from which the T value is retrieved
+	 * @return T the selected object as generic type T
+	 */
 	public static <T> T getComboBoxValue(ComboBox<T> comboBox) {
 		if (comboBox.getSelectionModel().getSelectedIndex() < 0) {
 			return null;

@@ -1,4 +1,4 @@
-package controllers;
+package jlib.controllers;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,10 +17,13 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import utils.Database;
+import jlib.utils.Database;
 
+/**
+ * Controller for the login window.
+ */
 public class LoginController {
-	public Connection connection;
+	protected Connection connection;
 
 	@FXML
 	private Button close, login;
@@ -52,7 +55,7 @@ public class LoginController {
 		// make a single connection and reuse it throughout the application
 		connection = Database.connect();
 
-		ResultSet resultSet = null;
+		ResultSet resultSet;
 		PreparedStatement statement = connection
 				.prepareStatement("SELECT * FROM librarians WHERE username=? AND password=?;");
 		statement.setString(1, username.getText());
@@ -60,15 +63,16 @@ public class LoginController {
 		resultSet = statement.executeQuery();
 
 		if (resultSet.next()) {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/main.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/jlib/views/main.fxml"));
 			Parent window = loader.load();
 
 			MainController mainController = loader.getController();
 			mainController.currentLibrarianId = Integer.parseInt(resultSet.getString(1));
 			mainController.lblLoggedLibrarian.setText(resultSet.getString(4));
 
-			if (resultSet.getString(6) != null) {
-				mainController.loggedLibrarian.setFill(new ImagePattern(new Image("file:" + resultSet.getString(6))));
+			Image librarianPhoto = new Image("file:" + resultSet.getString(6));
+			if (resultSet.getString(6) != null && !librarianPhoto.isError()) {
+				mainController.loggedLibrarian.setFill(new ImagePattern(librarianPhoto));
 			}
 
 			Scene dashboard = new Scene(window);
@@ -81,7 +85,7 @@ public class LoginController {
 			Stage stage = new Stage();
 			stage.setScene(dashboard);
 			stage.initStyle(StageStyle.DECORATED);
-			stage.getIcons().add(new Image("resources/logo.png"));
+			stage.getIcons().add(new Image("/jlib/resources/logo.png"));
 			stage.setTitle("jLib - Easy Library Management");
 			stage.show();
 

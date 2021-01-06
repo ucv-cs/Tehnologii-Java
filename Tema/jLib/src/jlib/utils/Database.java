@@ -1,10 +1,13 @@
-package utils;
+package jlib.utils;
 
 import java.sql.*;
 
+/**
+ * Utility class for handling database operations.
+ */
 public class Database {
 	public static Connection connection = null;
-	private final static String database = "jdbc:sqlite:src/storage/jlib.db";
+	private final static String database = "jdbc:sqlite:src/jlib/storage/jlib.db";
 
 	/**
 	 * Connects to the database.
@@ -31,31 +34,27 @@ public class Database {
 		}
 	}
 
-/**
- * Executes a given SELECT query on the database.
- *
- * @param sql the query
- * @return the result set
- * @throws SQLException
- */
-	public static ResultSet read(String sql) throws SQLException {
+	/**
+	 * Executes a given SELECT query on the database, using executeQuery().
+	 *
+	 * @param sql the query
+	 * @return the result set
+	 */
+	public static ResultSet read(String sql) {
 		ResultSet resultSet = null;
-		Statement statement = null;
+		Statement statement;
 		try {
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery(sql);
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
-		} finally {
-			if (statement != null) {
-				statement.close();
-			}
 		}
 		return resultSet;
 	}
 
 	/**
-	 * Executes a given INSERT, UPDATE or DELETE query on the database.
+	 * Executes a given INSERT, UPDATE or DELETE query on the database, using
+	 * executeUpdate().
 	 *
 	 * @param sql the query
 	 */
@@ -63,8 +62,6 @@ public class Database {
 		Statement statement;
 		try {
 			statement = connection.createStatement();
-			// For INSERT, UPDATE or DELETE use the executeUpdate() method and for SELECT
-			// use the executeQuery() method which returns the ResultSet.
 			statement.executeUpdate(sql);
 			statement.close();
 		} catch (Exception e) {

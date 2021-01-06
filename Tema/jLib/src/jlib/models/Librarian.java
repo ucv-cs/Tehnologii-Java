@@ -1,33 +1,30 @@
-package models;
+package jlib.models;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
- * Defines a reader object with all its properties matching the database
+ * Defines a librarian object with all its properties matching the database
  * attributes.
  */
-public class Reader {
+public class Librarian {
 	private final SimpleIntegerProperty id;
+	private final SimpleStringProperty username;
+	private final SimpleStringProperty password;
 	private final SimpleStringProperty name;
 	private final SimpleStringProperty address;
 	private final SimpleStringProperty photo;
 	private final SimpleStringProperty status;
 
-	public Reader(int id, String name, String address, String photo, String status) {
+	public Librarian(int id, String username, String password, String name, String address, String photo,
+			String status) {
 		this.id = new SimpleIntegerProperty(id);
+		this.username = new SimpleStringProperty(username);
+		this.password = new SimpleStringProperty(password);
 		this.name = new SimpleStringProperty(name);
 		this.address = new SimpleStringProperty(address);
 		this.photo = new SimpleStringProperty(photo);
 		this.status = new SimpleStringProperty(status);
-	}
-
-	public Reader(int id, String name) {
-		this.id = new SimpleIntegerProperty(id);
-		this.name = new SimpleStringProperty(name);
-		this.address = null;
-		this.photo = null;
-		this.status = null;
 	}
 
 	public int getId() {
@@ -36,6 +33,22 @@ public class Reader {
 
 	public void setId(int id) {
 		this.id.set(id);
+	}
+
+	public String getUsername() {
+		return username.get();
+	}
+
+	public void setUsername(String username) {
+		this.username.set(username);
+	}
+
+	public String getPassword() {
+		return password.get();
+	}
+
+	public void setPassword(String password) {
+		this.password.set(password);
 	}
 
 	public String getName() {

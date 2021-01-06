@@ -1,4 +1,4 @@
-package controllers;
+package jlib.controllers;
 
 import java.io.File;
 import java.net.URL;
@@ -21,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
@@ -29,26 +30,34 @@ import javafx.scene.control.TableSelectionModel;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import models.Book;
-import models.Librarian;
-import models.Reader;
-import utils.Database;
+import jlib.App;
+import jlib.models.Book;
+import jlib.models.Librarian;
+import jlib.models.Reader;
+import jlib.utils.Database;
 
+/**
+ * Controller for the main window.
+ *
+ * @see <a
+ *      href=https://code.makery.ch/blog/javafx-8-tableview-sorting-filtering/'>JavaFX
+ *      8 TableView Sorting and Filtering</a>
+ * @see <a href=http://tutorials.jenkov.com/javafx/tableview.html>JavaFX
+ *      TableView</a>
+ */
 public class MainController implements Initializable {
 
-	private Connection connection = Database.connection;
+	private final Connection connection = Database.connection;
 
 	// tabs
 	@FXML
@@ -133,16 +142,18 @@ public class MainController implements Initializable {
 	@FXML
 	public Circle loggedLibrarian;
 
-	private double xOffset = 0;
-	private double yOffset = 0;
+	// private double xOffset = 0;
+	// private double yOffset = 0;
 
-	public int currentLibrarianId;
+	protected int currentLibrarianId;
 
 	/**
 	 * Runs after FXML injection, so it can initialize the UI.
 	 *
-	 * @param location
-	 * @param resources
+	 * @param location  the location used to resolve relative paths for the root
+	 *                  object, or null if the location is not known
+	 * @param resources the resources used to localize the root object, or null if
+	 *                  the root object was not localized
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -156,8 +167,8 @@ public class MainController implements Initializable {
 	 * system. The selected image is displayed in the UI and its path is stored into
 	 * the database.
 	 *
-	 * @param MouseEvent the event holds information about the widget that triggered
-	 *                   it
+	 * @param event the event that holds information about the widget that triggered
+	 *              it
 	 */
 	@FXML
 	private void chooseImage(MouseEvent event) {
@@ -211,25 +222,22 @@ public class MainController implements Initializable {
 
 		selectedBook = bookSelectionModel.getSelectedItems();
 
-		selectedBook.addListener(new ListChangeListener<Book>() {
-			@Override
-			public void onChanged(Change<? extends Book> change) {
-				if (!selectedBook.isEmpty()) {
-					libraryTitle.setText(selectedBook.get(0).getTitle());
-					libraryAuthors.setText(selectedBook.get(0).getAuthor());
-					librarySummary.setText(selectedBook.get(0).getSummary());
-					libraryPublisher.setText(selectedBook.get(0).getPublisher());
-					libraryEdition.setText(selectedBook.get(0).getEdition());
-					libraryYear.setText(selectedBook.get(0).getYear());
-					libraryPrice.setText(selectedBook.get(0).getPrice());
-					libraryStatus.setText(selectedBook.get(0).getStatus());
-					try {
-						libraryCover.setImage(new Image("file:" + selectedBook.get(0).getCover()));
-					} catch (Exception e) {
-						System.err.println(e.getMessage());
-					}
-
+		selectedBook.addListener((ListChangeListener<Book>) change -> {
+			if (!selectedBook.isEmpty()) {
+				libraryTitle.setText(selectedBook.get(0).getTitle());
+				libraryAuthors.setText(selectedBook.get(0).getAuthor());
+				librarySummary.setText(selectedBook.get(0).getSummary());
+				libraryPublisher.setText(selectedBook.get(0).getPublisher());
+				libraryEdition.setText(selectedBook.get(0).getEdition());
+				libraryYear.setText(selectedBook.get(0).getYear());
+				libraryPrice.setText(selectedBook.get(0).getPrice());
+				libraryStatus.setText(selectedBook.get(0).getStatus());
+				try {
+					libraryCover.setImage(new Image("file:" + selectedBook.get(0).getCover()));
+				} catch (Exception e) {
+					System.err.println(e.getMessage());
 				}
+
 			}
 		});
 	}
@@ -237,13 +245,13 @@ public class MainController implements Initializable {
 	/**
 	 * Queries the database and retrieves a list of books.
 	 *
-	 * @return
+	 * @return ObservableList<Book>
 	 */
 	public ObservableList<Book> getBooksList() {
 		ObservableList<Book> booksList = FXCollections.observableArrayList();
 		String query = "SELECT * FROM books;";
-		Statement statement = null;
-		ResultSet resultSet = null;
+		Statement statement;
+		ResultSet resultSet;
 
 		try {
 			statement = connection.createStatement();
@@ -269,13 +277,13 @@ public class MainController implements Initializable {
 	public void displayBooks() {
 		ObservableList<Book> booksList = getBooksList();
 
-		tcBookId.setCellValueFactory(new PropertyValueFactory<Book, String>("id"));
-		tcBookTitle.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
-		tcBookAuthor.setCellValueFactory(new PropertyValueFactory<Book, String>("author"));
-		tcBookEdition.setCellValueFactory(new PropertyValueFactory<Book, String>("edition"));
-		tcBookYear.setCellValueFactory(new PropertyValueFactory<Book, String>("year"));
-		tcBookPublisher.setCellValueFactory(new PropertyValueFactory<Book, String>("publisher"));
-		tcBookStatus.setCellValueFactory(new PropertyValueFactory<Book, String>("status"));
+		tcBookId.setCellValueFactory(new PropertyValueFactory<>("id"));
+		tcBookTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+		tcBookAuthor.setCellValueFactory(new PropertyValueFactory<>("author"));
+		tcBookEdition.setCellValueFactory(new PropertyValueFactory<>("edition"));
+		tcBookYear.setCellValueFactory(new PropertyValueFactory<>("year"));
+		tcBookPublisher.setCellValueFactory(new PropertyValueFactory<>("publisher"));
+		tcBookStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
 
 		FilteredList<Book> filteredData = new FilteredList<>(booksList, flag -> true);
 
@@ -286,18 +294,16 @@ public class MainController implements Initializable {
 					return true;
 				}
 				String lowerCaseFilter = newValue.toLowerCase();
-				if (book.getTitle().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+				if (book.getTitle().toLowerCase().contains(lowerCaseFilter)) {
 					return true;
-				} else if (book.getAuthor().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+				} else if (book.getAuthor().toLowerCase().contains(lowerCaseFilter)) {
 					return true;
-				} else if (book.getYear().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+				} else if (book.getYear().toLowerCase().contains(lowerCaseFilter)) {
 					return true;
-				} else if (book.getPublisher().indexOf(lowerCaseFilter) != -1) {
-					return true;
-				} else if (book.getStatus().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+				} else if (book.getPublisher().contains(lowerCaseFilter)) {
 					return true;
 				} else {
-					return false;
+					return book.getStatus().toLowerCase().contains(lowerCaseFilter);
 				}
 			});
 		});
@@ -401,11 +407,9 @@ public class MainController implements Initializable {
 
 	/**
 	 * Displays a dialog for selecting readers and borrowing the selected book.
-	 *
-	 * @throws Exception
 	 */
 	@FXML
-	public void showBorrowDialog() throws Exception {
+	public void showBorrowDialog() {
 		if (selectedBook.isEmpty()) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("jLib");
@@ -426,14 +430,14 @@ public class MainController implements Initializable {
 			alert.setHeaderText("jLib 1.0\nEasy Library Management");
 			alert.setContentText("The selected book is already borrowed."); // to?, due date?
 			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-			stage.getIcons().add(new Image("resources/logo.png"));
+			stage.getIcons().add(new Image("/jlib/resources/logo.png"));
 			alert.showAndWait();
 			return;
 		}
 
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/borrow_dialog.fxml"));
-			Parent window = (Parent) fxmlLoader.load();
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/jlib/views/borrow_dialog.fxml"));
+			Parent window = fxmlLoader.load();
 
 			BorrowController borrowController = fxmlLoader.getController();
 			borrowController.selectedBookId = id;
@@ -451,6 +455,47 @@ public class MainController implements Initializable {
 		}
 	}
 
+	/**
+	 * Marks the currently selected book as returned (available).
+	 */
+	@FXML
+	public void markReturned() {
+		// libraryMarkReturned
+		if (selectedBook.isEmpty()) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("jLib");
+			alert.setHeaderText("jLib 1.0\nEasy Library Management");
+			alert.setContentText("First you have to select a book, then click Mark returned.");
+			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+			stage.getIcons().add(new Image("resources/logo.png"));
+			alert.showAndWait();
+			return;
+		}
+
+		int id = selectedBook.get(0).getId();
+
+		// check if the book is already available and notify the user
+		if (!selectedBook.get(0).getStatus().equals("borrowed")) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("jLib");
+			alert.setHeaderText("jLib 1.0\nEasy Library Management");
+			alert.setContentText("The selected book is already available for borrowing."); // to?, due date?
+			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+			stage.getIcons().add(new Image("resources/logo.png"));
+			alert.showAndWait();
+			return;
+		}
+
+		// DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd
+		// HH:mm:ss");
+		// LocalDateTime dateBorrowed = LocalDateTime.now();
+		// String dateBorrowedText = dateTimeFormatter.format(dateBorrowed);
+		String query = String.format(
+				"DELETE FROM borrows WHERE book_id='%d'; UPDATE books SET status='available' WHERE id='%d';", id, id);
+		Database.modify(query);
+		displayBooks();
+	}
+
 	// Reader methods.
 	/**
 	 * Retrieves the reader data and displays it.
@@ -462,19 +507,15 @@ public class MainController implements Initializable {
 
 		selectedReader = readerSelectionModel.getSelectedItems();
 
-		selectedReader.addListener(new ListChangeListener<Reader>() {
-			@Override
-			public void onChanged(Change<? extends Reader> change) {
-				if (!selectedReader.isEmpty()) {
-					readersName.setText(selectedReader.get(0).getName());
-					readersAddress.setText(selectedReader.get(0).getAddress());
-					readersStatus.setText(selectedReader.get(0).getStatus());
-					try {
-						readersPhoto.setImage(new Image("file:" + selectedReader.get(0).getPhoto()));
-					} catch (Exception e) {
-						System.err.println(e.getMessage());
-					}
-
+		selectedReader.addListener((ListChangeListener<Reader>) change -> {
+			if (!selectedReader.isEmpty()) {
+				readersName.setText(selectedReader.get(0).getName());
+				readersAddress.setText(selectedReader.get(0).getAddress());
+				readersStatus.setText(selectedReader.get(0).getStatus());
+				try {
+					readersPhoto.setImage(new Image("file:" + selectedReader.get(0).getPhoto()));
+				} catch (Exception e) {
+					System.err.println(e.getMessage());
 				}
 			}
 		});
@@ -513,10 +554,10 @@ public class MainController implements Initializable {
 	public void displayReaders() {
 		ObservableList<Reader> readersList = getReadersList();
 
-		tcReaderId.setCellValueFactory(new PropertyValueFactory<Reader, String>("id"));
-		tcReaderName.setCellValueFactory(new PropertyValueFactory<Reader, String>("name"));
-		tcReaderAddress.setCellValueFactory(new PropertyValueFactory<Reader, String>("address"));
-		tcReaderStatus.setCellValueFactory(new PropertyValueFactory<Reader, String>("status"));
+		tcReaderId.setCellValueFactory(new PropertyValueFactory<>("id"));
+		tcReaderName.setCellValueFactory(new PropertyValueFactory<>("name"));
+		tcReaderAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+		tcReaderStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
 
 		FilteredList<Reader> filteredData = new FilteredList<>(readersList, flag -> true);
 
@@ -527,14 +568,12 @@ public class MainController implements Initializable {
 					return true;
 				}
 				String lowerCaseFilter = newValue.toLowerCase();
-				if (reader.getName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+				if (reader.getName().toLowerCase().contains(lowerCaseFilter)) {
 					return true;
-				} else if (reader.getAddress().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-					return true;
-				} else if (reader.getStatus().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+				} else if (reader.getAddress().toLowerCase().contains(lowerCaseFilter)) {
 					return true;
 				} else {
-					return false;
+					return reader.getStatus().toLowerCase().contains(lowerCaseFilter);
 				}
 			});
 		});
@@ -631,21 +670,17 @@ public class MainController implements Initializable {
 
 		selectedLibrarian = librarianSelectionModel.getSelectedItems();
 
-		selectedLibrarian.addListener(new ListChangeListener<Librarian>() {
-			@Override
-			public void onChanged(Change<? extends Librarian> change) {
-				if (!selectedLibrarian.isEmpty()) {
-					librariansUsername.setText(selectedLibrarian.get(0).getUsername());
-					librariansPassword.setText(selectedLibrarian.get(0).getPassword());
-					librariansName.setText(selectedLibrarian.get(0).getName());
-					librariansAddress.setText(selectedLibrarian.get(0).getAddress());
-					librariansStatus.setText(selectedLibrarian.get(0).getStatus());
-					try {
-						librariansPhoto.setImage(new Image("file:" + selectedLibrarian.get(0).getPhoto()));
-					} catch (Exception e) {
-						System.err.println(e.getMessage());
-					}
-
+		selectedLibrarian.addListener((ListChangeListener<Librarian>) change -> {
+			if (!selectedLibrarian.isEmpty()) {
+				librariansUsername.setText(selectedLibrarian.get(0).getUsername());
+				librariansPassword.setText(selectedLibrarian.get(0).getPassword());
+				librariansName.setText(selectedLibrarian.get(0).getName());
+				librariansAddress.setText(selectedLibrarian.get(0).getAddress());
+				librariansStatus.setText(selectedLibrarian.get(0).getStatus());
+				try {
+					librariansPhoto.setImage(new Image("file:" + selectedLibrarian.get(0).getPhoto()));
+				} catch (Exception e) {
+					System.err.println(e.getMessage());
 				}
 			}
 		});
@@ -654,13 +689,13 @@ public class MainController implements Initializable {
 	/**
 	 * Queries the database and retrieves a list of librarians.
 	 *
-	 * @return
+	 * @return ObservableList<Librarian>
 	 */
 	public ObservableList<Librarian> getLibrariansList() {
 		ObservableList<Librarian> librariansList = FXCollections.observableArrayList();
 		String query = "SELECT * FROM librarians;";
-		Statement statement = null;
-		ResultSet resultSet = null;
+		Statement statement;
+		ResultSet resultSet;
 
 		try {
 			statement = connection.createStatement();
@@ -685,11 +720,11 @@ public class MainController implements Initializable {
 	public void displayLibrarians() {
 		ObservableList<Librarian> librariansList = getLibrariansList();
 
-		tcLibrarianId.setCellValueFactory(new PropertyValueFactory<Librarian, String>("id"));
-		tcLibrarianUsername.setCellValueFactory(new PropertyValueFactory<Librarian, String>("username"));
-		tcLibrarianPassword.setCellValueFactory(new PropertyValueFactory<Librarian, String>("password"));
-		tcLibrarianName.setCellValueFactory(new PropertyValueFactory<Librarian, String>("name"));
-		tcLibrarianStatus.setCellValueFactory(new PropertyValueFactory<Librarian, String>("status"));
+		tcLibrarianId.setCellValueFactory(new PropertyValueFactory<>("id"));
+		tcLibrarianUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
+		tcLibrarianPassword.setCellValueFactory(new PropertyValueFactory<>("password"));
+		tcLibrarianName.setCellValueFactory(new PropertyValueFactory<>("name"));
+		tcLibrarianStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
 
 		FilteredList<Librarian> filteredData = new FilteredList<>(librariansList, flag -> true);
 
@@ -700,14 +735,12 @@ public class MainController implements Initializable {
 					return true;
 				}
 				String lowerCaseFilter = newValue.toLowerCase();
-				if (librarian.getName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+				if (librarian.getName().toLowerCase().contains(lowerCaseFilter)) {
 					return true;
-				} else if (librarian.getUsername().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-					return true;
-				} else if (librarian.getStatus().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+				} else if (librarian.getUsername().toLowerCase().contains(lowerCaseFilter)) {
 					return true;
 				} else {
-					return false;
+					return librarian.getStatus().toLowerCase().contains(lowerCaseFilter);
 				}
 			});
 		});
@@ -785,7 +818,10 @@ public class MainController implements Initializable {
 			// update the user info in the UI
 			if (id == currentLibrarianId) {
 				lblLoggedLibrarian.setText(librariansName.getText());
-				loggedLibrarian.setFill(new ImagePattern(new Image("file:" + imagePath)));
+				Image librarianPhoto = new Image("file:" + imagePath);
+				if (!librarianPhoto.isError()) {
+					loggedLibrarian.setFill(new ImagePattern(new Image("file:" + imagePath)));
+				}
 			}
 			displayLibrarians();
 			clearLibrarian();
@@ -809,42 +845,18 @@ public class MainController implements Initializable {
 	/**
 	 * Logs out the current librarian, hides the main window and displays the login
 	 * window.
-	 *
-	 * @throws Exception
 	 */
 	@FXML
-	private void logout() throws Exception {
+	private void logout() {
 		// hide the main window
 		logout.getScene().getWindow().hide();
 		// close the current database connection
 		Database.disconnect();
-
-		// the login window is borderless, so we need to manually handle the window
-		// position and the close action
-		Parent window = FXMLLoader.load(getClass().getResource("../views/login.fxml"));
-
-		Stage stage = new Stage();
-		stage.initStyle(StageStyle.TRANSPARENT);
-
-		// when the mouse is pressed, get its coordinates
-		window.setOnMousePressed(event -> {
-			xOffset = event.getSceneX();
-			yOffset = event.getSceneY();
-		});
-
-		// when the mouse is dragged, set the window's coordinates to the new position
-		window.setOnMouseDragged(event -> {
-			stage.setX(event.getScreenX() - xOffset);
-			stage.setY(event.getScreenY() - yOffset);
-		});
-
-		// window setup
-		Scene scene = new Scene(window);
-		scene.setFill(Color.TRANSPARENT);
-		stage.getIcons().add(new Image("resources/logo.png"));
-		stage.setTitle("jLib");
-		stage.setScene(scene);
-		stage.show();
+		try {
+			App.app.start(new Stage());
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
 	}
 
 	/**
@@ -866,7 +878,7 @@ public class MainController implements Initializable {
 		alert.setHeaderText("jLib 1.0\nEasy Library Management");
 		alert.setContentText("Manage the library from your desktop\nCopyright (C) 2021 Alin Clincea");
 		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-		stage.getIcons().add(new Image("resources/logo.png"));
+		stage.getIcons().add(new Image("/jlib/resources/logo.png"));
 		alert.showAndWait();
 	}
 }
