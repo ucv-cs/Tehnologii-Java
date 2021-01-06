@@ -4,6 +4,8 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -18,8 +20,11 @@ import utils.AutoComplete;
 import utils.Database;
 
 public class BorrowController implements Initializable {
+	public int currentLibrarianId;
 	public int selectedBookId;
 	private int selectedReaderId;
+	private Connection connection = Database.connection;
+	public MainController mainController;
 
 	@FXML
 	private Button borrow, cancel;
@@ -46,20 +51,19 @@ public class BorrowController implements Initializable {
 	public ObservableList<Reader> getReadersList() {
 		ObservableList<Reader> readersList = FXCollections.observableArrayList();
 		String query = "SELECT * FROM readers;";
-		Statement statement;
-		ResultSet results;
+		Statement statement = null;
+		ResultSet resultSet = null;
 
 		try {
-			Connection connection = Database.connect();
 			statement = connection.createStatement();
-			results = statement.executeQuery(query);
+			resultSet = statement.executeQuery(query);
 			Reader readers;
-			while (results.next()) {
-				readers = new Reader(results.getInt("id"), results.getString("name"));
+			while (resultSet.next()) {
+				readers = new Reader(resultSet.getInt("id"), resultSet.getString("name"));
 				readersList.add(readers);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 
 		return readersList;
@@ -96,7 +100,17 @@ public class BorrowController implements Initializable {
 	 */
 	@FXML
 	private void borrow() {
-		System.out.println("borrow clicked");
+		selectedReaderId = AutoComplete.getComboBoxValue(borrowReaderSearch).getId();
+
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime dateBorrowed = LocalDateTime.now();
+		String dateBorrowedText = dateTimeFormatter.format(dateBorrowed);
+		String query = String.format(
+				"INSERT INTO borrows (book_id, reader_id, librarian_id, date_borrowed) VALUES ('%d', '%d', '%d', '%s'); UPDATE books SET status='borrowed' WHERE id='%d';",
+				selectedBookId, selectedReaderId, currentLibrarianId, dateBorrowedText, selectedBookId);
+
+		Database.modify(query);
+		mainController.displayBooks();
 		cancel();
 	}
 
@@ -106,7 +120,6 @@ public class BorrowController implements Initializable {
 	@FXML
 	private void cancel() {
 		cancel.getScene().getWindow().hide();
-		System.out.println("cancel clicked");
 	}
 
 }

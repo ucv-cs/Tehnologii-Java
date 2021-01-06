@@ -20,6 +20,8 @@ import javafx.stage.StageStyle;
 import utils.Database;
 
 public class LoginController {
+	public Connection connection;
+
 	@FXML
 	private Button close, login;
 
@@ -47,23 +49,26 @@ public class LoginController {
 	 */
 	@FXML
 	private void showDashboard() throws Exception {
-		Connection connection = Database.connect();
-		ResultSet result = null;
+		// make a single connection and reuse it throughout the application
+		connection = Database.connect();
+
+		ResultSet resultSet = null;
 		PreparedStatement statement = connection
 				.prepareStatement("SELECT * FROM librarians WHERE username=? AND password=?;");
 		statement.setString(1, username.getText());
 		statement.setString(2, password.getText());
-		result = statement.executeQuery();
+		resultSet = statement.executeQuery();
 
-		if (result.next()) {
+		if (resultSet.next()) {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/main.fxml"));
 			Parent window = loader.load();
 
 			MainController mainController = loader.getController();
-			mainController.currentLibrarianId = Integer.parseInt(result.getString(1));
-			mainController.lblLoggedLibrarian.setText(result.getString(4));
-			if (result.getString(6) != null) {
-				mainController.loggedLibrarian.setFill(new ImagePattern(new Image("file:" + result.getString(6))));
+			mainController.currentLibrarianId = Integer.parseInt(resultSet.getString(1));
+			mainController.lblLoggedLibrarian.setText(resultSet.getString(4));
+
+			if (resultSet.getString(6) != null) {
+				mainController.loggedLibrarian.setFill(new ImagePattern(new Image("file:" + resultSet.getString(6))));
 			}
 
 			Scene dashboard = new Scene(window);

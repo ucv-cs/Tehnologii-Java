@@ -60,6 +60,11 @@ public class AutoComplete {
 						caretPos = comboBox.getEditor().getCaretPosition();
 					}
 				} else if (event.getCode() == KeyCode.ENTER) {
+					int selectedIndex = comboBox.getSelectionModel().getSelectedIndex();
+					if (selectedIndex > 0)
+						comboBox.getSelectionModel().select(selectedIndex);
+					else
+						comboBox.getSelectionModel().selectFirst();
 					return;
 				}
 

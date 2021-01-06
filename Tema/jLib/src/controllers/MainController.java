@@ -48,7 +48,7 @@ import utils.Database;
 
 public class MainController implements Initializable {
 
-	private static Connection connection;
+	private Connection connection = Database.connection;
 
 	// tabs
 	@FXML
@@ -146,7 +146,6 @@ public class MainController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		connection = Database.connect();
 		prepareLibraryTab();
 		prepareReadersTab();
 		prepareLibrariansTab();
@@ -197,7 +196,7 @@ public class MainController implements Initializable {
 				imageView.setImage(image);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 	}
 
@@ -227,7 +226,7 @@ public class MainController implements Initializable {
 					try {
 						libraryCover.setImage(new Image("file:" + selectedBook.get(0).getCover()));
 					} catch (Exception e) {
-						System.out.println(e.toString());
+						System.err.println(e.getMessage());
 					}
 
 				}
@@ -243,22 +242,22 @@ public class MainController implements Initializable {
 	public ObservableList<Book> getBooksList() {
 		ObservableList<Book> booksList = FXCollections.observableArrayList();
 		String query = "SELECT * FROM books;";
-		Statement statement;
-		ResultSet results;
+		Statement statement = null;
+		ResultSet resultSet = null;
 
 		try {
 			statement = connection.createStatement();
-			results = statement.executeQuery(query);
+			resultSet = statement.executeQuery(query);
 			Book books;
-			while (results.next()) {
-				books = new Book(results.getInt("id"), results.getString("title"), results.getString("author"),
-						results.getString("edition"), results.getString("year"), results.getString("publisher"),
-						results.getString("summary"), results.getString("cover"), results.getString("price"),
-						results.getString("status"));
+			while (resultSet.next()) {
+				books = new Book(resultSet.getInt("id"), resultSet.getString("title"), resultSet.getString("author"),
+						resultSet.getString("edition"), resultSet.getString("year"), resultSet.getString("publisher"),
+						resultSet.getString("summary"), resultSet.getString("cover"), resultSet.getString("price"),
+						resultSet.getString("status"));
 				booksList.add(books);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 
 		return booksList;
@@ -329,7 +328,7 @@ public class MainController implements Initializable {
 			statement.executeUpdate();
 			statement.close();
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			System.err.println(e.getMessage());
 		}
 
 		displayBooks();
@@ -379,7 +378,7 @@ public class MainController implements Initializable {
 				statement.executeUpdate();
 				statement.close();
 			} catch (SQLException e) {
-				System.out.println(e.toString());
+				System.err.println(e.getMessage());
 			}
 			displayBooks();
 			clearBook();
@@ -394,7 +393,7 @@ public class MainController implements Initializable {
 		if (!selectedBook.isEmpty()) {
 			int id = selectedBook.get(0).getId();
 			String query = String.format("DELETE FROM books WHERE id='%s';", id);
-			Database.query(query);
+			Database.modify(query);
 			displayBooks();
 			clearBook();
 		}
@@ -420,12 +419,26 @@ public class MainController implements Initializable {
 
 		int id = selectedBook.get(0).getId();
 
+		// check if the book is already borrowed and notify the user
+		if (selectedBook.get(0).getStatus().equals("borrowed")) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("jLib");
+			alert.setHeaderText("jLib 1.0\nEasy Library Management");
+			alert.setContentText("The selected book is already borrowed."); // to?, due date?
+			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+			stage.getIcons().add(new Image("resources/logo.png"));
+			alert.showAndWait();
+			return;
+		}
+
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/borrow_dialog.fxml"));
 			Parent window = (Parent) fxmlLoader.load();
 
 			BorrowController borrowController = fxmlLoader.getController();
 			borrowController.selectedBookId = id;
+			borrowController.currentLibrarianId = currentLibrarianId;
+			borrowController.mainController = this;
 
 			Stage stage = new Stage();
 			stage.initStyle(StageStyle.UTILITY);
@@ -434,7 +447,7 @@ public class MainController implements Initializable {
 			stage.setScene(new Scene(window));
 			stage.show();
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
 		}
 	}
 
@@ -459,7 +472,7 @@ public class MainController implements Initializable {
 					try {
 						readersPhoto.setImage(new Image("file:" + selectedReader.get(0).getPhoto()));
 					} catch (Exception e) {
-						System.out.println(e.toString());
+						System.err.println(e.getMessage());
 					}
 
 				}
@@ -476,19 +489,19 @@ public class MainController implements Initializable {
 		ObservableList<Reader> readersList = FXCollections.observableArrayList();
 		String query = "SELECT * FROM readers;";
 		Statement statement;
-		ResultSet results;
+		ResultSet resultSet;
 
 		try {
 			statement = connection.createStatement();
-			results = statement.executeQuery(query);
+			resultSet = statement.executeQuery(query);
 			Reader readers;
-			while (results.next()) {
-				readers = new Reader(results.getInt("id"), results.getString("name"), results.getString("address"),
-						results.getString("photo"), results.getString("status"));
+			while (resultSet.next()) {
+				readers = new Reader(resultSet.getInt("id"), resultSet.getString("name"),
+						resultSet.getString("address"), resultSet.getString("photo"), resultSet.getString("status"));
 				readersList.add(readers);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 
 		return readersList;
@@ -547,7 +560,7 @@ public class MainController implements Initializable {
 			statement.executeUpdate();
 			statement.close();
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			System.err.println(e.getMessage());
 		}
 		displayReaders();
 		clearReader();
@@ -586,7 +599,7 @@ public class MainController implements Initializable {
 				statement.executeUpdate();
 				statement.close();
 			} catch (SQLException e) {
-				System.out.println(e.toString());
+				System.err.println(e.getMessage());
 			}
 			displayReaders();
 			clearReader();
@@ -601,7 +614,7 @@ public class MainController implements Initializable {
 		if (!selectedReader.isEmpty()) {
 			int id = selectedReader.get(0).getId();
 			String query = String.format("DELETE FROM readers WHERE id='%s';", id);
-			Database.query(query);
+			Database.modify(query);
 			displayReaders();
 			clearReader();
 		}
@@ -630,7 +643,7 @@ public class MainController implements Initializable {
 					try {
 						librariansPhoto.setImage(new Image("file:" + selectedLibrarian.get(0).getPhoto()));
 					} catch (Exception e) {
-						System.out.println(e.toString());
+						System.err.println(e.getMessage());
 					}
 
 				}
@@ -646,21 +659,21 @@ public class MainController implements Initializable {
 	public ObservableList<Librarian> getLibrariansList() {
 		ObservableList<Librarian> librariansList = FXCollections.observableArrayList();
 		String query = "SELECT * FROM librarians;";
-		Statement statement;
-		ResultSet results;
+		Statement statement = null;
+		ResultSet resultSet = null;
 
 		try {
 			statement = connection.createStatement();
-			results = statement.executeQuery(query);
+			resultSet = statement.executeQuery(query);
 			Librarian librarians;
-			while (results.next()) {
-				librarians = new Librarian(results.getInt("id"), results.getString("username"),
-						results.getString("password"), results.getString("name"), results.getString("address"),
-						results.getString("photo"), results.getString("status"));
+			while (resultSet.next()) {
+				librarians = new Librarian(resultSet.getInt("id"), resultSet.getString("username"),
+						resultSet.getString("password"), resultSet.getString("name"), resultSet.getString("address"),
+						resultSet.getString("photo"), resultSet.getString("status"));
 				librariansList.add(librarians);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 
 		return librariansList;
@@ -723,7 +736,7 @@ public class MainController implements Initializable {
 			statement.executeUpdate();
 			statement.close();
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			System.err.println(e.getMessage());
 		}
 		displayLibrarians();
 		clearLibrarian();
@@ -767,9 +780,9 @@ public class MainController implements Initializable {
 				statement.executeUpdate();
 				statement.close();
 			} catch (SQLException e) {
-				System.out.println(e.toString());
+				System.err.println(e.getMessage());
 			}
-			// update the user/logout info
+			// update the user info in the UI
 			if (id == currentLibrarianId) {
 				lblLoggedLibrarian.setText(librariansName.getText());
 				loggedLibrarian.setFill(new ImagePattern(new Image("file:" + imagePath)));
@@ -786,8 +799,8 @@ public class MainController implements Initializable {
 	private void deleteLibrarian() {
 		if (!selectedLibrarian.isEmpty()) {
 			int id = selectedLibrarian.get(0).getId();
-			String query = String.format("DELETE FROM librarians WHERE id='%s';", id);
-			Database.query(query);
+			String query = String.format("DELETE FROM librarians WHERE id='%d';", id);
+			Database.modify(query);
 			displayLibrarians();
 			clearLibrarian();
 		}
@@ -803,8 +816,9 @@ public class MainController implements Initializable {
 	private void logout() throws Exception {
 		// hide the main window
 		logout.getScene().getWindow().hide();
+		// close the current database connection
+		Database.disconnect();
 
-		// FIXME: don't duplicate code...
 		// the login window is borderless, so we need to manually handle the window
 		// position and the close action
 		Parent window = FXMLLoader.load(getClass().getResource("../views/login.fxml"));
@@ -838,6 +852,7 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	private void closeWindow() {
+		Database.disconnect();
 		Platform.exit();
 	}
 
