@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
@@ -479,19 +481,20 @@ public class MainController implements Initializable {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("jLib");
 			alert.setHeaderText("jLib 1.0\nEasy Library Management");
-			alert.setContentText("The selected book is already available for borrowing."); // to?, due date?
+			alert.setContentText("The selected book is already available for borrowing.");
 			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
 			stage.getIcons().add(new Image("resources/logo.png"));
 			alert.showAndWait();
 			return;
 		}
 
-		// DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd
-		// HH:mm:ss");
-		// LocalDateTime dateBorrowed = LocalDateTime.now();
-		// String dateBorrowedText = dateTimeFormatter.format(dateBorrowed);
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate dateReturned = LocalDate.now();
+		String dateReturnedText = dateTimeFormatter.format(dateReturned);
 		String query = String.format(
-				"DELETE FROM borrows WHERE book_id='%d'; UPDATE books SET status='available' WHERE id='%d';", id, id);
+				"UPDATE borrows SET date_returned='%s', active=0 WHERE book_id='%d' AND active=1;"+
+				"UPDATE books SET status='available' WHERE id='%d';",
+				dateReturnedText, id, id);
 		Database.modify(query);
 		displayBooks();
 	}

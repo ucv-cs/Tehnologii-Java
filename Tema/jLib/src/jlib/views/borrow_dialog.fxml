@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -11,9 +12,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="400.0" stylesheets="@../resources/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jlib.controllers.BorrowController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="333.0" prefWidth="400.0" stylesheets="@../resources/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jlib.controllers.BorrowController">
 	<children>
-		<AnchorPane prefHeight="69.0" prefWidth="400.0" styleClass="primaryColor" AnchorPane.bottomAnchor="181.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+		<AnchorPane prefHeight="72.0" prefWidth="400.0" styleClass="primaryColor" AnchorPane.bottomAnchor="260.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<children>
 				<Label alignment="CENTER" styleClass="primaryColor" text="jLib" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
 					<font>
@@ -29,10 +30,19 @@
 				</Label>
 			</children>
 		</AnchorPane>
-		<VBox prefHeight="180.0" prefWidth="400.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+		<VBox prefHeight="240.0" prefWidth="400.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="72.0">
 			<children>
 				<Label prefHeight="53.0" prefWidth="370.0" text="Select an existing reader. If the reader does not exist, you have to create it before borrowing any books." textAlignment="JUSTIFY" wrapText="true" />
             <ComboBox fx:id="borrowReaderSearch" editable="true" maxHeight="25.0" prefWidth="372.0" promptText="Lookup the reader's name" />
+            <HBox alignment="CENTER_LEFT" spacing="20.0">
+               <children>
+                  <Label text="Return date" />
+                  <DatePicker fx:id="returnDate" prefHeight="25.0" prefWidth="122.0" />
+               </children>
+               <VBox.margin>
+                  <Insets top="30.0" />
+               </VBox.margin>
+            </HBox>
 				<HBox alignment="BOTTOM_RIGHT" prefHeight="52.0" prefWidth="400.0" spacing="10.0">
 					<children>
 						<Button fx:id="borrow" defaultButton="true" mnemonicParsing="false" onAction="#borrow" prefHeight="25.0" prefWidth="72.0" text="Borrow" />
