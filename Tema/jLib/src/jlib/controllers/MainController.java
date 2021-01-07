@@ -418,7 +418,7 @@ public class MainController implements Initializable {
 			alert.setHeaderText("jLib 1.0\nEasy Library Management");
 			alert.setContentText("First you have to select a book, then click Borrow.");
 			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-			stage.getIcons().add(new Image("resources/logo.png"));
+			stage.getIcons().add(new Image("/jlib/resources/logo.png"));
 			alert.showAndWait();
 			return;
 		}
@@ -469,7 +469,7 @@ public class MainController implements Initializable {
 			alert.setHeaderText("jLib 1.0\nEasy Library Management");
 			alert.setContentText("First you have to select a book, then click Mark returned.");
 			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-			stage.getIcons().add(new Image("resources/logo.png"));
+			stage.getIcons().add(new Image("/jlib/resources/logo.png"));
 			alert.showAndWait();
 			return;
 		}
@@ -483,7 +483,7 @@ public class MainController implements Initializable {
 			alert.setHeaderText("jLib 1.0\nEasy Library Management");
 			alert.setContentText("The selected book is already available for borrowing.");
 			Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-			stage.getIcons().add(new Image("resources/logo.png"));
+			stage.getIcons().add(new Image("/jlib/resources/logo.png"));
 			alert.showAndWait();
 			return;
 		}
