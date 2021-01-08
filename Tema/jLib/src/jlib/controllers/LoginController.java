@@ -66,17 +66,19 @@ public class LoginController {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/jlib/views/main.fxml"));
 			Parent window = loader.load();
 
+			// pass data to MainController: logged in librarian id, name and photo
 			MainController mainController = loader.getController();
 			mainController.currentLibrarianId = Integer.parseInt(resultSet.getString(1));
 			mainController.lblLoggedLibrarian.setText(resultSet.getString(4));
 
 			try {
-				Image librarianPhoto = new Image(resultSet.getString(6));
-				if (!resultSet.getString(6).isEmpty() && !librarianPhoto.isError()) {
-					mainController.loggedLibrarian.setFill(new ImagePattern(librarianPhoto));
+				if (resultSet.getString(6).isEmpty()) {
+					mainController.loggedLibrarian.setFill(null);
+				} else {
+					mainController.loggedLibrarian.setFill(new ImagePattern(new Image(resultSet.getString(6))));
 				}
 			} catch (Exception e) {
-				 e.printStackTrace();
+				e.printStackTrace();
 			}
 
 			Scene dashboard = new Scene(window);

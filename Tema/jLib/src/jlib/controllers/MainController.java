@@ -505,7 +505,6 @@ public class MainController implements Initializable {
 	 * Retrieves the reader data and displays it.
 	 */
 	public void prepareReadersTab() {
-
 		readerSelectionModel = tblReaders.getSelectionModel();
 		displayReaders();
 
@@ -671,7 +670,6 @@ public class MainController implements Initializable {
 	 * Retrieves the librarian data and displays it.
 	 */
 	public void prepareLibrariansTab() {
-
 		librarianSelectionModel = tblLibrarians.getSelectionModel();
 		displayLibrarians();
 

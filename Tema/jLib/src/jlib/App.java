@@ -31,12 +31,11 @@ public class App extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		// the login window is borderless, so we need to manually handle the window
-		// position and the close action
+		// the login window is borderless
 		Parent window = FXMLLoader.load(getClass().getResource("/jlib/views/login.fxml"));
-
 		stage.initStyle(StageStyle.TRANSPARENT);
 
+		// manually handle the window position and the close action:
 		// when the mouse is pressed, get its coordinates
 		window.setOnMousePressed(event -> {
 			xOffset = event.getSceneX();
