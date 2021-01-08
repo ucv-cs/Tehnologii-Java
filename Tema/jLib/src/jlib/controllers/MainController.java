@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -25,9 +26,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableSelectionModel;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -75,7 +79,7 @@ public class MainController implements Initializable {
 
 	@FXML
 	private Button libraryBorrow, libraryMarkReturned, libraryAdd, libraryClear, libraryUpdate, libraryDelete,
-			btnLibraryCover;
+			btnLibraryCover, btnClearLibraryCover;
 
 	@FXML
 	private ImageView libraryCover;
@@ -95,7 +99,7 @@ public class MainController implements Initializable {
 	private TextArea readersAddress;
 
 	@FXML
-	private Button readersAdd, readersClear, readersUpdate, readersDelete;
+	private Button readersAdd, readersClear, readersUpdate, readersDelete, btnReadersPhoto, btnClearReadersPhoto;
 
 	@FXML
 	private ImageView readersPhoto;
@@ -114,7 +118,8 @@ public class MainController implements Initializable {
 	private TextArea librariansAddress;
 
 	@FXML
-	private Button librariansAdd, librariansClear, librariansUpdate, librariansDelete;
+	private Button librariansAdd, librariansClear, librariansUpdate, librariansDelete, btnLibrariansPhoto,
+			btnClearLibrariansPhoto;
 
 	@FXML
 	private ImageView librariansPhoto;
@@ -175,7 +180,7 @@ public class MainController implements Initializable {
 	@FXML
 	private void chooseImage(MouseEvent event) {
 		// get the id of the pressed button
-		String buttonId = event.getPickResult().getIntersectedNode().getId();
+		String buttonId = ((Button) event.getSource()).getId();
 		ImageView imageView;
 
 		// detect which button was pressed and set the image view accordingly
@@ -213,12 +218,41 @@ public class MainController implements Initializable {
 		}
 	}
 
+	/**
+	 * Clears the image displayed on specified controls.
+	 *
+	 * @param event the event that holds information about the widget that triggered
+	 *              it
+	 */
+	@FXML
+	private void clearImage(MouseEvent event) {
+		// get the id of the pressed button
+		String buttonId = ((Button) event.getSource()).getId();
+		ImageView imageView;
+
+		// detect which button was pressed and set the image view accordingly
+		switch (buttonId) {
+			case "btnClearLibraryCover":
+				imageView = libraryCover;
+				break;
+			case "btnClearReadersPhoto":
+				imageView = readersPhoto;
+				break;
+			case "btnClearLibrariansPhoto":
+				imageView = librariansPhoto;
+				break;
+			default:
+				return; // exit if no id matches
+		}
+
+		imageView.setImage(null);
+	}
+
 	// Library methods.
 	/**
 	 * Retrieves the book data and displays it.
 	 */
 	public void prepareLibraryTab() {
-
 		bookSelectionModel = tblLibrary.getSelectionModel();
 		displayBooks();
 
@@ -245,6 +279,38 @@ public class MainController implements Initializable {
 				}
 
 			}
+		});
+
+		// context menu for the table rows
+		ImageView borrowIcon = new ImageView(new Image("/jlib/resources/borrow.png"));
+		borrowIcon.setFitHeight(15);
+		ImageView returnIcon = new ImageView(new Image("/jlib/resources/return.png"));
+		returnIcon.setFitHeight(15);
+		tblLibrary.setRowFactory(selectedRow -> {
+			final TableRow<Book> row = new TableRow<>();
+
+			// create and add the context menu and its items
+			final ContextMenu contextMenu = new ContextMenu();
+
+			final MenuItem menuBorrow = new MenuItem("Borrow");
+			menuBorrow.setGraphic(borrowIcon);
+			menuBorrow.setOnAction(evt -> {
+				showBorrowDialog();
+			});
+			final MenuItem menuMarkReturn = new MenuItem("Mark returned");
+			menuMarkReturn.setGraphic(returnIcon);
+			menuMarkReturn.setOnAction(evt -> {
+				markReturned();
+			});
+
+			contextMenu.getItems().add(menuBorrow);
+			contextMenu.getItems().add(menuMarkReturn);
+
+			// use binding to only display the context menu over non-empty rows
+			row.contextMenuProperty()
+					.bind(Bindings.when(row.emptyProperty()).then((ContextMenu) null).otherwise(contextMenu));
+
+			return row;
 		});
 	}
 
@@ -317,6 +383,8 @@ public class MainController implements Initializable {
 		SortedList<Book> sortedData = new SortedList<>(filteredData);
 		sortedData.comparatorProperty().bind(tblLibrary.comparatorProperty());
 		tblLibrary.setItems(sortedData);
+
+		librarySearch.setText(null);
 	}
 
 	/**
@@ -588,6 +656,8 @@ public class MainController implements Initializable {
 		SortedList<Reader> sortedData = new SortedList<>(filteredData);
 		sortedData.comparatorProperty().bind(tblReaders.comparatorProperty());
 		tblReaders.setItems(sortedData);
+
+		readersSearch.setText(null);
 	}
 
 	/**
@@ -757,6 +827,8 @@ public class MainController implements Initializable {
 		SortedList<Librarian> sortedData = new SortedList<>(filteredData);
 		sortedData.comparatorProperty().bind(tblLibrarians.comparatorProperty());
 		tblLibrarians.setItems(sortedData);
+
+		librariansSearch.setText(null);
 	}
 
 	/**
@@ -824,10 +896,12 @@ public class MainController implements Initializable {
 			// update the user info in the UI
 			if (id == currentLibrarianId) {
 				lblLoggedLibrarian.setText(librariansName.getText());
-				Image librarianPhoto = new Image(imagePath);
-				if (!librarianPhoto.isError()) {
+				if (imagePath.isEmpty()) {
+					loggedLibrarian.setFill(null);
+				} else {
 					loggedLibrarian.setFill(new ImagePattern(new Image(imagePath)));
 				}
+
 			}
 			displayLibrarians();
 			clearLibrarian();

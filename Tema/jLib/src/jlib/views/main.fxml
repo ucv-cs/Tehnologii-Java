@@ -50,7 +50,7 @@
 						<Font name="System Bold" size="20.0" />
 					</font>
 					<graphic>
-						<ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+						<ImageView fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
 							<image>
 								<Image url="@../resources/logo.png" />
 							</image>
@@ -62,7 +62,7 @@
                   <Font size="13.0" />
                </font>
                <graphic>
-                  <Circle fx:id="loggedLibrarian" fill="#1f93ff" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                  <Circle fx:id="loggedLibrarian" fill="#bcc7d0" radius="25.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.5" />
                </graphic>
             </Label>
 			</children>
@@ -128,11 +128,20 @@
 																			<children>
 																				<HBox alignment="CENTER">
 																					<children>
-																						<Button fx:id="btnLibraryCover" mnemonicParsing="false" onMouseClicked="#chooseImage">
-																							<graphic>
-																								<ImageView fx:id="libraryCover" fitHeight="120.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-																							</graphic>
-																						</Button>
+                                                                  <AnchorPane>
+                                                                     <children>
+      																						<Button fx:id="btnLibraryCover" mnemonicParsing="false" onMouseClicked="#chooseImage" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="0.0">
+      																							<graphic>
+      																								<ImageView fx:id="libraryCover" fitHeight="120.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+      																							</graphic>
+      																						</Button>
+                                                                        <Button fx:id="btnClearLibraryCover" mnemonicParsing="false" onMousePressed="#clearImage" prefHeight="17.0" prefWidth="24.0" styleClass="clearImage" text="X" textFill="WHITE" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                           <font>
+                                                                              <Font name="System Bold" size="10.0" />
+                                                                           </font>
+                                                                        </Button>
+                                                                     </children>
+                                                                  </AnchorPane>
 																					</children>
 																				</HBox>
 																				<TextField fx:id="libraryTitle" promptText="Title" />
@@ -223,11 +232,20 @@
 																			<children>
 																				<HBox alignment="CENTER">
 																					<children>
-																						<Button fx:id="btnReadersPhoto" mnemonicParsing="false" onMouseClicked="#chooseImage">
-																							<graphic>
-																								<ImageView fx:id="readersPhoto" fitHeight="120.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-																							</graphic>
-																						</Button>
+                                                                  <AnchorPane>
+                                                                     <children>
+                                                                        <Button fx:id="btnReadersPhoto" mnemonicParsing="false" onMouseClicked="#chooseImage" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="0.0">
+                                                                           <graphic>
+                                                                              <ImageView fx:id="readersPhoto" fitHeight="120.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                                                           </graphic>
+                                                                        </Button>
+                                                                        <Button fx:id="btnClearReadersPhoto" mnemonicParsing="false" onMousePressed="#clearImage" prefHeight="17.0" prefWidth="24.0" styleClass="clearImage" text="X" textFill="WHITE" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                           <font>
+                                                                              <Font name="System Bold" size="10.0" />
+                                                                           </font>
+                                                                        </Button>
+                                                                     </children>
+                                                                  </AnchorPane>
 																					</children>
 																				</HBox>
 																				<TextField fx:id="readersName" promptText="Name" />
@@ -306,11 +324,20 @@
 																			<children>
 																				<HBox alignment="CENTER">
 																					<children>
-																						<Button fx:id="btnLibrariansPhoto" mnemonicParsing="false" onMouseClicked="#chooseImage">
-																							<graphic>
-																								<ImageView fx:id="librariansPhoto" fitHeight="120.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-																							</graphic>
-																						</Button>
+                                                                  <AnchorPane>
+                                                                     <children>
+                                                                        <Button fx:id="btnLibrariansPhoto" mnemonicParsing="false" onMouseClicked="#chooseImage" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="0.0">
+                                                                           <graphic>
+                                                                              <ImageView fx:id="librariansPhoto" fitHeight="120.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                                                           </graphic>
+                                                                        </Button>
+                                                                        <Button fx:id="btnClearLibrariansPhoto" mnemonicParsing="false" onMousePressed="#clearImage" prefHeight="17.0" prefWidth="24.0" styleClass="clearImage" text="X" textFill="WHITE" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                           <font>
+                                                                              <Font name="System Bold" size="10.0" />
+                                                                           </font>
+                                                                        </Button>
+                                                                     </children>
+                                                                  </AnchorPane>
 																					</children>
 																				</HBox>
                                                             <TextField fx:id="librariansUsername" layoutX="20.0" layoutY="158.0" promptText="Username" />

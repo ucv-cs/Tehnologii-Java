@@ -1,3 +1,7 @@
+.primaryColor {
+  -fx-background-color: #60b2e5;
+  -fx-text-fill: #fafafa;
+}
 .button {
   -fx-background-color: #71a2b6;
   -fx-background-radius: 10;
@@ -11,8 +15,7 @@
   -fx-background-color: #982649;
   -fx-background-radius: 10;
 }
-
-.primaryColor {
-  -fx-background-color: #60b2e5;
-  -fx-text-fill: #fafafa;
+.clearImage{
+	-fx-background-color: #982649;
+	-fx-opacity: 0.7;
 }
