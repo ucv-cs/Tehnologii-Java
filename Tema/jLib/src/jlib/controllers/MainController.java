@@ -283,11 +283,7 @@ public class MainController implements Initializable {
 
 		// context menu for the table rows
 		ImageView borrowIcon = new ImageView(new Image("/jlib/resources/borrow.png"));
-		borrowIcon.setFitHeight(15);
-		borrowIcon.setFitWidth(15);
 		ImageView returnIcon = new ImageView(new Image("/jlib/resources/return.png"));
-		returnIcon.setFitHeight(15);
-		returnIcon.setFitWidth(15);
 		tblLibrary.setRowFactory(selectedRow -> {
 			final TableRow<Book> row = new TableRow<>();
 

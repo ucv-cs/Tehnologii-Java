@@ -51,7 +51,7 @@ public class BorrowController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		addReadersToCombobox();
-		LocalDate dateToReturn = LocalDate.now().plusDays(15); // TODO: make a variable setting from 15
+		LocalDate dateToReturn = LocalDate.now().plusDays(15);
 		returnDate.setValue(dateToReturn);
 	}
 
@@ -75,7 +75,7 @@ public class BorrowController implements Initializable {
 				readersList.add(readers);
 			}
 		} catch (Exception e) {
-			 e.printStackTrace();
+			e.printStackTrace();
 		}
 
 		return readersList;
