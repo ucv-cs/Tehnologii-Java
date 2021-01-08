@@ -279,21 +279,20 @@ public class MainController implements Initializable {
 		});
 
 		// context menu for the table rows
-		ImageView borrowIcon = new ImageView(new Image("/jlib/resources/borrow.png"));
-		ImageView returnIcon = new ImageView(new Image("/jlib/resources/return.png"));
+		// create and add the context menu and its items
+		final ContextMenu contextMenu = new ContextMenu();
+		final ImageView borrowIcon = new ImageView(new Image("/jlib/resources/borrow.png"));
+		final ImageView returnIcon = new ImageView(new Image("/jlib/resources/return.png"));
+
+		final MenuItem menuBorrow = new MenuItem("Borrow");
+		menuBorrow.setGraphic(borrowIcon);
+		final MenuItem menuMarkReturn = new MenuItem("Mark returned");
+		menuMarkReturn.setGraphic(returnIcon);
+
 		tblLibrary.setRowFactory(selectedRow -> {
 			final TableRow<Book> row = new TableRow<>();
-
-			// create and add the context menu and its items
-			final ContextMenu contextMenu = new ContextMenu();
-
-			final MenuItem menuBorrow = new MenuItem("Borrow");
-			menuBorrow.setGraphic(borrowIcon);
 			menuBorrow.setOnAction(event -> showBorrowDialog());
-			final MenuItem menuMarkReturn = new MenuItem("Mark returned");
-			menuMarkReturn.setGraphic(returnIcon);
 			menuMarkReturn.setOnAction(event -> markReturned());
-
 			contextMenu.getItems().add(menuBorrow);
 			contextMenu.getItems().add(menuMarkReturn);
 
