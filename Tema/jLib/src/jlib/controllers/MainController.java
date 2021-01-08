@@ -204,12 +204,12 @@ public class MainController implements Initializable {
 
 		try {
 			if (file != null) {
-				String imagePath = file.getAbsolutePath();
-				Image image = new Image("file:" + imagePath);
+				String imagePath = file.toURI().toURL().toExternalForm();
+				Image image = new Image(imagePath);
 				imageView.setImage(image);
 			}
 		} catch (Exception e) {
-			System.err.println(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
@@ -235,9 +235,13 @@ public class MainController implements Initializable {
 				libraryPrice.setText(selectedBook.get(0).getPrice());
 				libraryStatus.setText(selectedBook.get(0).getStatus());
 				try {
-					libraryCover.setImage(new Image("file:" + selectedBook.get(0).getCover()));
+					if (selectedBook.get(0).getCover().isEmpty()) {
+						libraryCover.setImage(null);
+					} else {
+						libraryCover.setImage(new Image(selectedBook.get(0).getCover()));
+					}
 				} catch (Exception e) {
-					System.err.println(e.getMessage());
+					e.printStackTrace();
 				}
 
 			}
@@ -267,7 +271,7 @@ public class MainController implements Initializable {
 				booksList.add(books);
 			}
 		} catch (Exception e) {
-			System.err.println(e.getMessage());
+			e.printStackTrace();
 		}
 
 		return booksList;
@@ -320,7 +324,7 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	private void addBook() {
-		String imagePath = libraryCover.getImage() != null ? libraryCover.getImage().getUrl().replace("file:", "") : "";
+		String imagePath = libraryCover.getImage() != null ? libraryCover.getImage().getUrl() : "";
 		try {
 			PreparedStatement statement = connection.prepareStatement(
 					"INSERT INTO books (title, author, edition, year, publisher, summary, price, cover, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -336,7 +340,7 @@ public class MainController implements Initializable {
 			statement.executeUpdate();
 			statement.close();
 		} catch (SQLException e) {
-			System.err.println(e.getMessage());
+			e.printStackTrace();
 		}
 
 		displayBooks();
@@ -368,8 +372,7 @@ public class MainController implements Initializable {
 	private void updateBook() {
 		if (!selectedBook.isEmpty()) {
 			int id = selectedBook.get(0).getId();
-			String imagePath = libraryCover.getImage() != null ? libraryCover.getImage().getUrl().replace("file:", "")
-					: "";
+			String imagePath = libraryCover.getImage() != null ? libraryCover.getImage().getUrl() : "";
 			try {
 				PreparedStatement statement = connection.prepareStatement(
 						"UPDATE books SET title=?, author=?, edition=?, year=?, publisher=?, summary=?, price=?, cover=?, status=? WHERE id=?;");
@@ -386,7 +389,7 @@ public class MainController implements Initializable {
 				statement.executeUpdate();
 				statement.close();
 			} catch (SQLException e) {
-				System.err.println(e.getMessage());
+				e.printStackTrace();
 			}
 			displayBooks();
 			clearBook();
@@ -453,7 +456,7 @@ public class MainController implements Initializable {
 			stage.setScene(new Scene(window));
 			stage.show();
 		} catch (Exception e) {
-			System.err.println(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
@@ -491,10 +494,8 @@ public class MainController implements Initializable {
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate dateReturned = LocalDate.now();
 		String dateReturnedText = dateTimeFormatter.format(dateReturned);
-		String query = String.format(
-				"UPDATE borrows SET date_returned='%s', active=0 WHERE book_id='%d' AND active=1;"+
-				"UPDATE books SET status='available' WHERE id='%d';",
-				dateReturnedText, id, id);
+		String query = String.format("UPDATE borrows SET date_returned='%s', active=0 WHERE book_id='%d' AND active=1;"
+				+ "UPDATE books SET status='available' WHERE id='%d';", dateReturnedText, id, id);
 		Database.modify(query);
 		displayBooks();
 	}
@@ -516,9 +517,13 @@ public class MainController implements Initializable {
 				readersAddress.setText(selectedReader.get(0).getAddress());
 				readersStatus.setText(selectedReader.get(0).getStatus());
 				try {
-					readersPhoto.setImage(new Image("file:" + selectedReader.get(0).getPhoto()));
+					if (selectedReader.get(0).getPhoto().isEmpty()) {
+						readersPhoto.setImage(null);
+					} else {
+						readersPhoto.setImage(new Image(selectedReader.get(0).getPhoto()));
+					}
 				} catch (Exception e) {
-					System.err.println(e.getMessage());
+					e.printStackTrace();
 				}
 			}
 		});
@@ -545,7 +550,7 @@ public class MainController implements Initializable {
 				readersList.add(readers);
 			}
 		} catch (Exception e) {
-			System.err.println(e.getMessage());
+			e.printStackTrace();
 		}
 
 		return readersList;
@@ -591,7 +596,7 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	private void addReader() {
-		String imagePath = readersPhoto.getImage() != null ? readersPhoto.getImage().getUrl().replace("file:", "") : "";
+		String imagePath = readersPhoto.getImage() != null ? readersPhoto.getImage().getUrl() : "";
 		try {
 			PreparedStatement statement = connection
 					.prepareStatement("INSERT INTO readers (name, address, photo, status) VALUES (?, ?, ?, ?)");
@@ -602,7 +607,7 @@ public class MainController implements Initializable {
 			statement.executeUpdate();
 			statement.close();
 		} catch (SQLException e) {
-			System.err.println(e.getMessage());
+			e.printStackTrace();
 		}
 		displayReaders();
 		clearReader();
@@ -628,8 +633,7 @@ public class MainController implements Initializable {
 	private void updateReader() {
 		if (!selectedReader.isEmpty()) {
 			int id = selectedReader.get(0).getId();
-			String imagePath = readersPhoto.getImage() != null ? readersPhoto.getImage().getUrl().replace("file:", "")
-					: "";
+			String imagePath = readersPhoto.getImage() != null ? readersPhoto.getImage().getUrl() : "";
 			try {
 				PreparedStatement statement = connection
 						.prepareStatement("UPDATE readers SET name=?, address=?, photo=?, status=? WHERE id=?;");
@@ -641,7 +645,7 @@ public class MainController implements Initializable {
 				statement.executeUpdate();
 				statement.close();
 			} catch (SQLException e) {
-				System.err.println(e.getMessage());
+				e.printStackTrace();
 			}
 			displayReaders();
 			clearReader();
@@ -681,9 +685,13 @@ public class MainController implements Initializable {
 				librariansAddress.setText(selectedLibrarian.get(0).getAddress());
 				librariansStatus.setText(selectedLibrarian.get(0).getStatus());
 				try {
-					librariansPhoto.setImage(new Image("file:" + selectedLibrarian.get(0).getPhoto()));
+					if (selectedLibrarian.get(0).getPhoto().isEmpty()) {
+						librariansPhoto.setImage(null);
+					} else {
+						librariansPhoto.setImage(new Image(selectedLibrarian.get(0).getPhoto()));
+					}
 				} catch (Exception e) {
-					System.err.println(e.getMessage());
+					e.printStackTrace();
 				}
 			}
 		});
@@ -711,7 +719,7 @@ public class MainController implements Initializable {
 				librariansList.add(librarians);
 			}
 		} catch (Exception e) {
-			System.err.println(e.getMessage());
+			e.printStackTrace();
 		}
 
 		return librariansList;
@@ -758,8 +766,7 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	private void addLibrarian() {
-		String imagePath = librariansPhoto.getImage() != null ? librariansPhoto.getImage().getUrl().replace("file:", "")
-				: "";
+		String imagePath = librariansPhoto.getImage() != null ? librariansPhoto.getImage().getUrl() : "";
 		try {
 			PreparedStatement statement = connection.prepareStatement(
 					"INSERT INTO librarians (username, password, name, address, photo, status) VALUES (?, ?, ?, ?, ?, ?)");
@@ -772,7 +779,7 @@ public class MainController implements Initializable {
 			statement.executeUpdate();
 			statement.close();
 		} catch (SQLException e) {
-			System.err.println(e.getMessage());
+			e.printStackTrace();
 		}
 		displayLibrarians();
 		clearLibrarian();
@@ -800,9 +807,7 @@ public class MainController implements Initializable {
 	private void updateLibrarian() {
 		if (!selectedLibrarian.isEmpty()) {
 			int id = selectedLibrarian.get(0).getId();
-			String imagePath = librariansPhoto.getImage() != null
-					? librariansPhoto.getImage().getUrl().replace("file:", "")
-					: "";
+			String imagePath = librariansPhoto.getImage() != null ? librariansPhoto.getImage().getUrl() : "";
 			try {
 				PreparedStatement statement = connection.prepareStatement(
 						"UPDATE librarians SET username=?, password=?, name=?, address=?, photo=?, status=? WHERE id=?;");
@@ -816,14 +821,14 @@ public class MainController implements Initializable {
 				statement.executeUpdate();
 				statement.close();
 			} catch (SQLException e) {
-				System.err.println(e.getMessage());
+				e.printStackTrace();
 			}
 			// update the user info in the UI
 			if (id == currentLibrarianId) {
 				lblLoggedLibrarian.setText(librariansName.getText());
-				Image librarianPhoto = new Image("file:" + imagePath);
+				Image librarianPhoto = new Image(imagePath);
 				if (!librarianPhoto.isError()) {
-					loggedLibrarian.setFill(new ImagePattern(new Image("file:" + imagePath)));
+					loggedLibrarian.setFill(new ImagePattern(new Image(imagePath)));
 				}
 			}
 			displayLibrarians();
@@ -858,7 +863,7 @@ public class MainController implements Initializable {
 		try {
 			App.app.start(new Stage());
 		} catch (Exception e) {
-			System.err.println(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 

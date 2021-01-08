@@ -70,9 +70,13 @@ public class LoginController {
 			mainController.currentLibrarianId = Integer.parseInt(resultSet.getString(1));
 			mainController.lblLoggedLibrarian.setText(resultSet.getString(4));
 
-			Image librarianPhoto = new Image("file:" + resultSet.getString(6));
-			if (resultSet.getString(6) != null && !librarianPhoto.isError()) {
-				mainController.loggedLibrarian.setFill(new ImagePattern(librarianPhoto));
+			try {
+				Image librarianPhoto = new Image(resultSet.getString(6));
+				if (!resultSet.getString(6).isEmpty() && !librarianPhoto.isError()) {
+					mainController.loggedLibrarian.setFill(new ImagePattern(librarianPhoto));
+				}
+			} catch (Exception e) {
+				 e.printStackTrace();
 			}
 
 			Scene dashboard = new Scene(window);

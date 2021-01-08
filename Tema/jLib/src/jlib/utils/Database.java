@@ -16,7 +16,7 @@ public class Database {
 		try {
 			connection = DriverManager.getConnection(database);
 		} catch (SQLException e) {
-			System.err.println(e.getMessage());
+			 e.printStackTrace();
 		}
 		return connection;
 	}
@@ -30,7 +30,7 @@ public class Database {
 				connection.close();
 			}
 		} catch (SQLException e) {
-			System.err.println(e.getMessage());
+			 e.printStackTrace();
 		}
 	}
 
@@ -47,7 +47,7 @@ public class Database {
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery(sql);
 		} catch (SQLException e) {
-			System.err.println(e.getMessage());
+			 e.printStackTrace();
 		}
 		return resultSet;
 	}
@@ -65,7 +65,7 @@ public class Database {
 			statement.executeUpdate(sql);
 			statement.close();
 		} catch (Exception e) {
-			System.err.println(e.getMessage());
+			 e.printStackTrace();
 		}
 	}
 

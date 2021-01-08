@@ -75,7 +75,7 @@ public class BorrowController implements Initializable {
 				readersList.add(readers);
 			}
 		} catch (Exception e) {
-			System.err.println(e.getMessage());
+			 e.printStackTrace();
 		}
 
 		return readersList;
