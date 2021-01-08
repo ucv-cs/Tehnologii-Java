@@ -44,8 +44,8 @@ CREATE TABLE IF NOT EXISTS "borrows" (
 	"librarian_id"	INTEGER,
 	"active"	INTEGER NOT NULL DEFAULT 1,
 	PRIMARY KEY("id" AUTOINCREMENT),
-	FOREIGN KEY("book_id") REFERENCES "books"("id"),
 	FOREIGN KEY("reader_id") REFERENCES "readers"("id"),
+	FOREIGN KEY("book_id") REFERENCES "books"("id"),
 	FOREIGN KEY("librarian_id") REFERENCES "librarians"("id")
 );
 COMMIT;

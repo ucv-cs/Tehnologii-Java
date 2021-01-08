@@ -149,9 +149,6 @@ public class MainController implements Initializable {
 	@FXML
 	public Circle loggedLibrarian;
 
-	// private double xOffset = 0;
-	// private double yOffset = 0;
-
 	protected int currentLibrarianId;
 
 	/**
@@ -292,14 +289,10 @@ public class MainController implements Initializable {
 
 			final MenuItem menuBorrow = new MenuItem("Borrow");
 			menuBorrow.setGraphic(borrowIcon);
-			menuBorrow.setOnAction(evt -> {
-				showBorrowDialog();
-			});
+			menuBorrow.setOnAction(event -> showBorrowDialog());
 			final MenuItem menuMarkReturn = new MenuItem("Mark returned");
 			menuMarkReturn.setGraphic(returnIcon);
-			menuMarkReturn.setOnAction(evt -> {
-				markReturned();
-			});
+			menuMarkReturn.setOnAction(event -> markReturned());
 
 			contextMenu.getItems().add(menuBorrow);
 			contextMenu.getItems().add(menuMarkReturn);
@@ -597,7 +590,7 @@ public class MainController implements Initializable {
 	/**
 	 * Queries the database and retrieves a list of readers.
 	 *
-	 * @return
+	 * @return ObservableList<Reader>
 	 */
 	public ObservableList<Reader> getReadersList() {
 		ObservableList<Reader> readersList = FXCollections.observableArrayList();
