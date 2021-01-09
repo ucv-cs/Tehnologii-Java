@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import jlib.utils.Database;
 
 /**
  * Application initializer.
@@ -31,8 +32,34 @@ public class App extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
+		// work in progress; needing a uniform way of accessing the database both from
+		// the artifact jar and the running configuration; the issue will extend to URLs
+		// stored in jlib.db
+		/*
+		 * String database; boolean isArtifactBuild = false;
+		 *
+		 * if (isArtifactBuild) { // if build artifacts database =
+		 * getClass().getResource("/jlib/storage/jlib.db").toString().replace("jar:",
+		 * "").replace("file:", "jdbc:sqlite::resource:jar:file:"); } else { // if run
+		 * app database =
+		 * getClass().getResource("/jlib/storage/jlib.db").toString().replace("file:",
+		 * "jdbc:sqlite:"); }
+		 *
+		 * System.out.println(database);
+		 */
+
+		// get the database full path and prepare the URL for connection by changing its
+		// protocol/scheme to jdbc:sqlite:
+		String database = getClass().getResource("/jlib/storage/jlib.db").toString().replace("file:", "jdbc:sqlite:");
+
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/jlib/views/login.fxml"));
+		Parent window = fxmlLoader.load();
+
+		// make a single connection to the database and reuse it throughout the
+		// application
+		Database.connect(database);
+
 		// the login window is borderless
-		Parent window = FXMLLoader.load(getClass().getResource("/jlib/views/login.fxml"));
 		stage.initStyle(StageStyle.TRANSPARENT);
 
 		// manually handle the window position and the close action:

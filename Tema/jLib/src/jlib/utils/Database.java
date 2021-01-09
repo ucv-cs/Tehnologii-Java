@@ -7,18 +7,18 @@ import java.sql.*;
  */
 public class Database {
 	public static Connection connection = null;
-	private final static String database = "jdbc:sqlite:src/jlib/storage/jlib.db";
 
 	/**
-	 * Connects to the database.
+	 * Connects to the databaseUrl.
+	 *
+	 * @param databaseUrl
 	 */
-	public static Connection connect() {
+	public static void connect(String databaseUrl) {
 		try {
-			connection = DriverManager.getConnection(database);
+			connection = DriverManager.getConnection(databaseUrl);
 		} catch (SQLException e) {
-			 e.printStackTrace();
+			e.printStackTrace();
 		}
-		return connection;
 	}
 
 	/**
@@ -30,7 +30,7 @@ public class Database {
 				connection.close();
 			}
 		} catch (SQLException e) {
-			 e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 
@@ -47,7 +47,7 @@ public class Database {
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery(sql);
 		} catch (SQLException e) {
-			 e.printStackTrace();
+			e.printStackTrace();
 		}
 		return resultSet;
 	}
@@ -65,7 +65,7 @@ public class Database {
 			statement.executeUpdate(sql);
 			statement.close();
 		} catch (Exception e) {
-			 e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 

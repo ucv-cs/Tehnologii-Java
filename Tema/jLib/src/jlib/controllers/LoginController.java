@@ -23,7 +23,7 @@ import jlib.utils.Database;
  * Controller for the login window.
  */
 public class LoginController {
-	protected Connection connection;
+	private Connection connection;
 
 	@FXML
 	private Button close, login;
@@ -52,9 +52,7 @@ public class LoginController {
 	 */
 	@FXML
 	private void showDashboard() throws Exception {
-		// make a single connection and reuse it throughout the application
-		connection = Database.connect();
-
+		connection = Database.connection;
 		ResultSet resultSet;
 		PreparedStatement statement = connection
 				.prepareStatement("SELECT * FROM librarians WHERE username=? AND password=?;");
@@ -63,23 +61,24 @@ public class LoginController {
 		resultSet = statement.executeQuery();
 
 		if (resultSet.next()) {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/jlib/views/main.fxml"));
-			Parent window = loader.load();
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/jlib/views/main.fxml"));
+			Parent window = fxmlLoader.load();
 
 			// pass data to MainController: logged in librarian id, name and photo
-			MainController mainController = loader.getController();
+			MainController mainController = fxmlLoader.getController();
 			mainController.currentLibrarianId = Integer.parseInt(resultSet.getString(1));
 			mainController.lblLoggedLibrarian.setText(resultSet.getString(4));
 
+			// any exception related to the image URL results in the picture not being
+			// dispalyed, but the execution should continue
+			ImagePattern imagePattern;
 			try {
-				if (resultSet.getString(6).isEmpty()) {
-					mainController.loggedLibrarian.setFill(null);
-				} else {
-					mainController.loggedLibrarian.setFill(new ImagePattern(new Image(resultSet.getString(6))));
-				}
+				Image image = new Image(resultSet.getString(6));
+				imagePattern = new ImagePattern(image.isError() ? null : image);
 			} catch (Exception e) {
-				e.printStackTrace();
+				imagePattern = null;
 			}
+			mainController.loggedLibrarian.setFill(imagePattern);
 
 			Scene dashboard = new Scene(window);
 

@@ -265,16 +265,14 @@ public class MainController implements Initializable {
 				libraryYear.setText(selectedBook.get(0).getYear());
 				libraryPrice.setText(selectedBook.get(0).getPrice());
 				libraryStatus.setText(selectedBook.get(0).getStatus());
-				try {
-					if (selectedBook.get(0).getCover().isEmpty()) {
-						libraryCover.setImage(null);
-					} else {
-						libraryCover.setImage(new Image(selectedBook.get(0).getCover()));
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
 
+				Image image;
+				try {
+					image = new Image(selectedBook.get(0).getCover());
+				} catch (Exception e) {
+					image = null;
+				}
+				libraryCover.setImage(image);
 			}
 		});
 
@@ -573,15 +571,14 @@ public class MainController implements Initializable {
 				readersName.setText(selectedReader.get(0).getName());
 				readersAddress.setText(selectedReader.get(0).getAddress());
 				readersStatus.setText(selectedReader.get(0).getStatus());
+
+				Image image;
 				try {
-					if (selectedReader.get(0).getPhoto().isEmpty()) {
-						readersPhoto.setImage(null);
-					} else {
-						readersPhoto.setImage(new Image(selectedReader.get(0).getPhoto()));
-					}
+					image = new Image(selectedReader.get(0).getPhoto());
 				} catch (Exception e) {
-					e.printStackTrace();
+					image = null;
 				}
+				readersPhoto.setImage(image);
 			}
 		});
 	}
@@ -742,15 +739,14 @@ public class MainController implements Initializable {
 				librariansName.setText(selectedLibrarian.get(0).getName());
 				librariansAddress.setText(selectedLibrarian.get(0).getAddress());
 				librariansStatus.setText(selectedLibrarian.get(0).getStatus());
+
+				Image image;
 				try {
-					if (selectedLibrarian.get(0).getPhoto().isEmpty()) {
-						librariansPhoto.setImage(null);
-					} else {
-						librariansPhoto.setImage(new Image(selectedLibrarian.get(0).getPhoto()));
-					}
+					image = new Image(selectedLibrarian.get(0).getPhoto());
 				} catch (Exception e) {
-					e.printStackTrace();
+					image = null;
 				}
+				librariansPhoto.setImage(image);
 			}
 		});
 	}
