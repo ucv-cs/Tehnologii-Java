@@ -11,7 +11,7 @@ import javafx.scene.input.KeyEvent;
  * Utility class for creating autocomplete comboboxes in JavaFX.
  *
  * @author Mateus Viccari
- * @see <a href=https://stackoverflow.com/a/27384068>AutoComplete ComboBox in
+ * @see <a href="https://stackoverflow.com/a/27384068">AutoComplete ComboBox in
  *      JavaFX</a>
  */
 public class AutoComplete {

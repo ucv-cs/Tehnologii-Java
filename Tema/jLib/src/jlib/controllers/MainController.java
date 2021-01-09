@@ -55,10 +55,10 @@ import jlib.utils.Database;
 /**
  * Controller for the main window.
  *
- * @see <a
- *      href=https://code.makery.ch/blog/javafx-8-tableview-sorting-filtering/'>JavaFX
+ * @see <a href=
+ *      "https://code.makery.ch/blog/javafx-8-tableview-sorting-filtering/">JavaFX
  *      8 TableView Sorting and Filtering</a>
- * @see <a href=http://tutorials.jenkov.com/javafx/tableview.html>JavaFX
+ * @see <a href="http://tutorials.jenkov.com/javafx/tableview.html">JavaFX
  *      TableView</a>
  */
 public class MainController implements Initializable {
