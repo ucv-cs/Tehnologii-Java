@@ -22,32 +22,18 @@ public class App extends Application {
 	private double xOffset = 0;
 	private double yOffset = 0;
 
+	// constructor used to add the current app reference to the static field
 	public App() {
 		app = this;
 	}
 
+	// application entry point
 	public static void main(String[] args) {
 		launch(args);
 	}
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		// work in progress; needing a uniform way of accessing the database both from
-		// the artifact jar and the running configuration; the issue will extend to URLs
-		// stored in jlib.db
-		/*
-		 * String database; boolean isArtifactBuild = false;
-		 *
-		 * if (isArtifactBuild) { // if build artifacts database =
-		 * getClass().getResource("/jlib/storage/jlib.db").toString().replace("jar:",
-		 * "").replace("file:", "jdbc:sqlite::resource:jar:file:"); } else { // if run
-		 * app database =
-		 * getClass().getResource("/jlib/storage/jlib.db").toString().replace("file:",
-		 * "jdbc:sqlite:"); }
-		 *
-		 * System.out.println(database);
-		 */
-
 		// get the database full path and prepare the URL for connection by changing its
 		// protocol/scheme to jdbc:sqlite:
 		String database = getClass().getResource("/jlib/storage/jlib.db").toString().replace("file:", "jdbc:sqlite:");

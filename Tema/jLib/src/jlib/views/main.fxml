@@ -81,7 +81,7 @@
 													<items>
 														<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="371.0" prefWidth="466.0">
 															<children>
-																<TableView fx:id="tblLibrary" layoutX="14.0" layoutY="45.0" prefHeight="389.0" prefWidth="676.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="45.0">
+																<TableView fx:id="tblLibrary" layoutX="14.0" layoutY="45.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="45.0">
 																	<columns>
 																		<TableColumn fx:id="tcBookId" prefWidth="75.0" text="Id" visible="false" />
 																		<TableColumn fx:id="tcBookTitle" prefWidth="150.0" text="Title" />
@@ -122,9 +122,9 @@
 																		<Insets bottom="10.0" />
 																	</padding>
 																</HBox>
-																<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="405.0" prefWidth="296.0">
+																<ScrollPane fitToHeight="true" fitToWidth="true">
 																	<content>
-																		<VBox prefHeight="373.0" prefWidth="294.0" spacing="10.0">
+																		<VBox spacing="10.0" style="-fx-border-width: 2px;">
 																			<children>
 																				<HBox alignment="CENTER">
 																					<children>
@@ -154,7 +154,7 @@
 																						<TextField fx:id="libraryYear" layoutX="10.0" layoutY="10.0" promptText="Year" HBox.hgrow="ALWAYS" />
 																					</children>
 																				</HBox>
-																				<HBox alignment="CENTER" layoutX="20.0" layoutY="295.0" spacing="10.0">
+																				<HBox alignment="CENTER" spacing="10.0">
 																					<children>
 																						<TextField fx:id="libraryPrice" promptText="Price" HBox.hgrow="ALWAYS" />
 																						<TextField fx:id="libraryStatus" layoutX="10.0" layoutY="10.0" promptText="Status" HBox.hgrow="ALWAYS" />
@@ -190,7 +190,7 @@
 													<items>
 														<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="371.0" prefWidth="466.0">
 															<children>
-																<TableView fx:id="tblReaders" layoutX="14.0" layoutY="45.0" prefHeight="389.0" prefWidth="676.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="45.0">
+																<TableView fx:id="tblReaders" layoutX="14.0" layoutY="45.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="45.0">
 																	<columns>
                                                       <TableColumn fx:id="tcReaderId" prefWidth="75.0" text="Id" visible="false" />
 																		<TableColumn fx:id="tcReaderName" prefWidth="200.0" text="Name" />
@@ -228,7 +228,7 @@
 																</HBox>
 																<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="405.0" prefWidth="296.0">
 																	<content>
-																		<VBox prefHeight="373.0" prefWidth="294.0" spacing="10.0">
+																		<VBox spacing="10.0">
 																			<children>
 																				<HBox alignment="CENTER">
 																					<children>
@@ -281,7 +281,7 @@
 													<items>
 														<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="371.0" prefWidth="466.0">
 															<children>
-																<TableView fx:id="tblLibrarians" layoutX="14.0" layoutY="45.0" prefHeight="389.0" prefWidth="676.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="45.0">
+																<TableView fx:id="tblLibrarians" layoutX="14.0" layoutY="45.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="45.0">
 																	<columns>
                                                       <TableColumn fx:id="tcLibrarianId" prefWidth="75.0" text="Id" visible="false" />
 																		<TableColumn fx:id="tcLibrarianUsername" prefWidth="100.0" text="Username" />
@@ -320,7 +320,7 @@
 																</HBox>
 																<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="405.0" prefWidth="296.0">
 																	<content>
-																		<VBox prefHeight="373.0" prefWidth="294.0" spacing="10.0">
+																		<VBox spacing="10.0">
 																			<children>
 																				<HBox alignment="CENTER">
 																					<children>
@@ -369,6 +369,6 @@
 				</TabPane>
 			</children>
 		</AnchorPane>
-		<Pane layoutX="10.0" layoutY="435.0" prefHeight="50.0" styleClass="primaryColor" />
+		<Pane layoutX="10.0" layoutY="435.0" prefHeight="50.0" styleClass="primaryColor" VBox.vgrow="NEVER" />
 	</children>
 </VBox>

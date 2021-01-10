@@ -11,7 +11,7 @@ public class Database {
 	/**
 	 * Connects to the databaseUrl.
 	 *
-	 * @param databaseUrl
+	 * @param databaseUrl the connection string
 	 */
 	public static void connect(String databaseUrl) {
 		try {
@@ -68,5 +68,4 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
-
 }

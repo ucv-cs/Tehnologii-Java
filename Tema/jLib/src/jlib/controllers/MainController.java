@@ -459,7 +459,7 @@ public class MainController implements Initializable {
 	private void deleteBook() {
 		if (!selectedBook.isEmpty()) {
 			int id = selectedBook.get(0).getId();
-			String query = String.format("DELETE FROM books WHERE id='%s';", id);
+			String query = String.format("DELETE FROM books WHERE id='%d';", id);
 			Database.modify(query);
 			displayBooks();
 			clearBook();
@@ -521,7 +521,6 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	public void markReturned() {
-		// libraryMarkReturned
 		if (selectedBook.isEmpty()) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("jLib");
@@ -926,15 +925,6 @@ public class MainController implements Initializable {
 	}
 
 	/**
-	 * Closes the app window.
-	 */
-	@FXML
-	private void closeWindow() {
-		Database.disconnect();
-		Platform.exit();
-	}
-
-	/**
 	 * Shows the about dialog.
 	 */
 	@FXML
@@ -946,5 +936,14 @@ public class MainController implements Initializable {
 		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
 		stage.getIcons().add(new Image("/jlib/resources/logo.png"));
 		alert.showAndWait();
+	}
+
+	/**
+	 * Closes the app window.
+	 */
+	@FXML
+	private void closeWindow() {
+		Database.disconnect();
+		Platform.exit();
 	}
 }

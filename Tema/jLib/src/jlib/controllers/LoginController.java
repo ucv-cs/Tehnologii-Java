@@ -38,14 +38,6 @@ public class LoginController {
 	private Label info;
 
 	/**
-	 * Closes the app window.
-	 */
-	@FXML
-	private void closeWindow() {
-		Platform.exit();
-	}
-
-	/**
 	 * After a successful login, display the main window.
 	 *
 	 * @throws Exception
@@ -60,7 +52,7 @@ public class LoginController {
 		statement.setString(2, password.getText());
 		resultSet = statement.executeQuery();
 
-		if (resultSet.next()) {
+		if (resultSet.next()) { // if the query returns a result
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/jlib/views/main.fxml"));
 			Parent window = fxmlLoader.load();
 
@@ -94,9 +86,18 @@ public class LoginController {
 			stage.setTitle("jLib - Easy Library Management");
 			stage.show();
 
-		} else {
+		} else { // display a validation message
 			info.setText("Wrong login information. Try again!");
 		}
 		statement.close();
+	}
+
+	/**
+	 * Closes the app window.
+	 */
+	@FXML
+	private void closeWindow() {
+		Database.disconnect();
+		Platform.exit();
 	}
 }

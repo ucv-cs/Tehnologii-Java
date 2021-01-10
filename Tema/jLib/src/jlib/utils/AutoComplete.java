@@ -133,5 +133,4 @@ public class AutoComplete {
 			return comboBox.getItems().get(comboBox.getSelectionModel().getSelectedIndex());
 		}
 	}
-
 }
