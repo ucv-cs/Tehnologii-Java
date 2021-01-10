@@ -10,6 +10,9 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import jlib.utils.Database;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+
 /**
  * Application initializer.
  */
@@ -36,14 +39,16 @@ public class App extends Application {
 	public void start(Stage stage) throws Exception {
 		// get the database full path and prepare the URL for connection by changing its
 		// protocol/scheme to jdbc:sqlite:
-		String database = getClass().getResource("/jlib/storage/jlib.db").toString().replace("file:", "jdbc:sqlite:");
+		String databaseUrl = getClass().getResource("/jlib/storage/jlib.db").toString()
+				.replace("file:", "jdbc:sqlite:");
+		databaseUrl = URLDecoder.decode(databaseUrl, StandardCharsets.UTF_8);
 
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/jlib/views/login.fxml"));
 		Parent window = fxmlLoader.load();
 
 		// make a single connection to the database and reuse it throughout the
 		// application
-		Database.connect(database);
+		Database.connect(databaseUrl);
 
 		// the login window is borderless
 		stage.initStyle(StageStyle.TRANSPARENT);
