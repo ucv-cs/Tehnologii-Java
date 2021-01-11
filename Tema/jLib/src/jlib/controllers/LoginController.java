@@ -38,7 +38,7 @@ public class LoginController {
 	private Label info;
 
 	/**
-	 * After a successful login, display the main window.
+	 * After a successful login, displays the main window.
 	 *
 	 * @throws Exception
 	 */
@@ -62,7 +62,7 @@ public class LoginController {
 			mainController.lblLoggedLibrarian.setText(resultSet.getString(4));
 
 			// any exception related to the image URL results in the picture not being
-			// dispalyed, but the execution should continue
+			// displayed, but the execution should continue
 			ImagePattern imagePattern;
 			try {
 				Image image = new Image(resultSet.getString(6));
