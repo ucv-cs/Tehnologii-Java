@@ -1,0 +1,28 @@
+.primaryColor {
+  -fx-background-color: #60b2e5;
+  -fx-text-fill: #fafafa;
+}
+.secondaryColor {
+  -fx-background-color: #fafafa;
+  -fx-text-fill: #60b2e5;
+}
+.button {
+  -fx-background-color: #71a2b6;
+  -fx-background-radius: 10;
+  -fx-text-fill: #fafafa;
+}
+.button:hover {
+  -fx-background-color: #9fc6d6;
+  -fx-background-radius: 10;
+}
+.button:pressed {
+  -fx-background-color: #982649;
+  -fx-background-radius: 10;
+}
+.clearImage {
+  -fx-background-color: #982649;
+  -fx-opacity: 0.7;
+}
+.scroll-pane {
+  -fx-background-color: transparent;
+}
