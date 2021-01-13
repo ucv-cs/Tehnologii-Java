@@ -5,7 +5,7 @@
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:/$PROJECT_DIR$/out/production/jLib/jlib/storage/jlib.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:/$PROJECT_DIR$/build/production/jLib/jlib/storage/jlib.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

@@ -1,1 +1,1 @@
--classpath "production\\jLib;production\\lib\\sqlite-jdbc-3.34.0.jar;%PATH_TO_FX%\\*.jar"
+-classpath "build\\production\\jLib;build\\production\\lib\\sqlite-jdbc-3.34.0.jar;%PATH_TO_FX%\\*.jar"
